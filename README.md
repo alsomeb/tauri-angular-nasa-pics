@@ -1,7 +1,11 @@
 # Tauri + Angular
 
-This template should help get you started developing with Tauri and Angular.
+- Learning Rust and Tauri, at the same time sharpening my Angular.
+- Its a fun little desktop application where you can get nasa pics from Mars rover
+- Under development
 
-## Recommended IDE Setup
 
-[VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer) + [Angular Language Service](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template).
+# Start the application in dev mode
+```shell
+    npm run tauri dev
+```
