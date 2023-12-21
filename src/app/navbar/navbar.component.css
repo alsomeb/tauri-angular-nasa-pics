@@ -1,0 +1,17 @@
+nav {
+    background-color: #756AB6 !important;
+}
+
+a {
+    font-size: 1.2rem !important;
+}
+
+li a:hover {
+    color: white !important;
+    cursor: pointer;
+}
+
+.active {
+    color: white !important;
+    font-weight: bold;
+}
