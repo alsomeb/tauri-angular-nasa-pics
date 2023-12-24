@@ -1,16 +1,24 @@
 import { Routes } from "@angular/router";
 import {LoginComponent} from "./login/login.component";
-import {AboutComponent} from "./about/about.component";
-import {RegisterComponent} from "./register/register.component";
 
 export const routes: Routes = [
     {
         path: '', component: LoginComponent
     },
     {
-        path: 'about', component: AboutComponent
+        // Lazy Loading Components
+        path: 'about', loadComponent: () =>
+            import('./about/about.component').then((comp) => comp.AboutComponent)
     },
     {
-        path: 'register', component: RegisterComponent
+        path: 'register', loadComponent: () =>
+            import('./register/register.component').then((comp) => comp.RegisterComponent)
     },
+    {
+        path: 'dashboard', loadComponent: () =>
+            import('./dashboard/dashboard.component').then((comp) => comp.DashboardComponent)
+    },
+    {
+        path: '**', redirectTo: '', pathMatch: "full"
+    }
 ];
