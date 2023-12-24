@@ -5,6 +5,7 @@
 - Make albums (CRUD)
 - Save pics to PC
 - Maybe look at Tauri Notifications
+- Supabase Auth (Opensource Firebase alternative)
 - Under development
 
 

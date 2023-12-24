@@ -22,3 +22,6 @@ export const routes: Routes = [
         path: '**', redirectTo: '', pathMatch: "full"
     }
 ];
+
+// Guide Supabase and Auth
+// https://www.youtube.com/watch?v=hPI8OegHPYc&t=940s&ab_channel=TheCodeAngle
