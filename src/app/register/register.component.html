@@ -1,3 +1,19 @@
 <div class="container">
-    <p>Hejsan register</p>
+    <div class="h2 text-center my-5">Register</div>
+    <div class="my-5 border border-dark-subtle rounded p-5 shadow-sm">
+        <form [formGroup]="registerForm" (ngSubmit)="handleRegister()">
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="text" class="form-control border border-dark-subtle" id="email" formControlName="email">
+                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control border border-dark-subtle" id="password" formControlName="password">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <div id="registerHelp" class="form-text my-3">Already have an account? <a class="link-dark" routerLink="">Login</a></div>
+        </form>
+    </div>
 </div>
+
