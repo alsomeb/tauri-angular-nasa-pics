@@ -10,3 +10,5 @@ export class SupaAuthService {
   constructor(private http: HttpClient) {
   }
 }
+
+// https://www.youtube.com/watch?v=hPI8OegHPYc&t=940s&ab_channel=TheCodeAngle 26:44 / 51:43

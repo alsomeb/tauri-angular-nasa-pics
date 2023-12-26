@@ -13,12 +13,8 @@ import {RouterLink} from "@angular/router";
   styleUrl: './login.component.css'
 })
 export class LoginComponent implements OnInit{
-  /*
-    This is a common pattern when working with reactive forms in Angular.
-    You start with an empty form group, and then use the FormBuilder to create the form controls
-    and add them to the form group.
-   */
-  loginForm: FormGroup = new FormGroup({});
+  // with an exclamation mark, indicating that even though it's not assigned initially, it will be assigned a value before it's used.
+  loginForm!: FormGroup;
 
   constructor(private fb: FormBuilder) {
   }
@@ -26,8 +22,8 @@ export class LoginComponent implements OnInit{
   ngOnInit(): void {
     // FormBuilder
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(3)]]
+      email: ['', [Validators.required, Validators.email, Validators.minLength(5)]],
+      password: ['', [Validators.required, Validators.minLength(7)]]
     });
   }
 

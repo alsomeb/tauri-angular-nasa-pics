@@ -14,7 +14,8 @@ import {RouterLink} from "@angular/router";
   styleUrl: './register.component.css'
 })
 export class RegisterComponent implements OnInit {
-  registerForm: FormGroup = new FormGroup({});
+  // with an exclamation mark, indicating that even though it's not assigned initially, it will be assigned a value before it's used.
+  registerForm!: FormGroup;
 
   constructor(private fb: FormBuilder) {
   }
@@ -22,8 +23,10 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     // FormBuilder
     this.registerForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(3)]]
+      email: ['', [Validators.required, Validators.email, Validators.minLength(5)]],
+      firstName: ['', [Validators.required, Validators.minLength(2)]],
+      lastName: ['', [Validators.required, Validators.minLength(2)]],
+      password: ['', [Validators.required, Validators.minLength(7)]]
     });
   }
 

@@ -4,13 +4,13 @@
         <form [formGroup]="loginForm" (ngSubmit)="handleLogin()">
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="text" class="form-control border border-dark-subtle" id="email" formControlName="email">
+                <input type="text" placeholder="Enter email" class="form-control border border-dark-subtle" id="email" formControlName="email">
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control border border-dark-subtle" id="password" formControlName="password">
+                <input type="password" placeholder="Enter password" class="form-control border border-dark-subtle" id="password" formControlName="password">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary my-3">Submit</button>
             <div id="registerHelp" class="form-text my-3">Dont have an account? <a class="link-dark" routerLink="/register">Register</a></div>
         </form>
     </div>
