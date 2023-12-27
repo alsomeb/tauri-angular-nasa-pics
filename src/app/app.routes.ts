@@ -21,7 +21,9 @@ export const routes: Routes = [
             import('./confirm/confirm.component').then((comp) => comp.ConfirmComponent)
     },
     {
-        path: 'dashboard', component: DashboardComponent, canActivate: [authGuard]
+        path: 'dashboard', loadComponent: () =>
+            import('./dashboard/dashboard.component').then((comp) => comp.DashboardComponent),
+        canActivate: [() => authGuard]
     },
     {
         path: '**', redirectTo: '', pathMatch: "full"

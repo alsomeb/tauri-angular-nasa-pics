@@ -43,19 +43,23 @@ export class SupaAuthService {
     return this.currentUserSubject.asObservable();
   }
 
-   async setUserSession() {
-     const currSession = await this.supabaseClient.auth.getSession();
-     const currUser = currSession.data.session?.user;
 
-     if (currUser) {
-       this.currentUserSubject.next(currUser);
-       console.log(currUser);
-     } else {
-       this.currentUserSubject.next(false); // Guard logic needs this
-       console.log(currUser);
-     }
-   }
+  setUserSession() {
+      const currSession = this.supabaseClient.auth.getSession().then((session) => {
+        const currUser = session.data.session?.user;
 
+        if (currUser) {
+          this.currentUserSubject.next(currUser);
+          console.log(currUser);
+        } else {
+          this.currentUserSubject.next(false);
+          console.log('User not authenticated');
+        }
+      }).catch((error) => {
+        console.error('Error fetching session:', error);
+        this.currentUserSubject.next(null);
+      });
+  }
 
   // Login
   login(email: string, password: string) {

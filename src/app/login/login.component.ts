@@ -40,17 +40,27 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  handleLogin() {
-      this.spinner.show()
-      const loginUser: LoginUser = this.loginForm.value; // This will be same type as 'RegisterUser'
-      this.authService.login(loginUser.email, loginUser.password).then(() => {
-        this.spinner.hide()
-        this.router.navigate(['/dashboard']);
-      }).catch((err) => {
-        sweetAlertError("Oops!", "Wrong details 😒")
-        console.log(err);
-        this.loginForm.reset()
-        this.spinner.hide()
-      })
+  async handleLogin() {
+    try {
+      this.spinner.show();
+      const loginUser: LoginUser = this.loginForm.value;
+      const { error } = await this.authService.login(loginUser.email, loginUser.password);
+
+      if (error) {
+        throw error;
+      }
+
+      this.router.navigate(['/dashboard']);
+    } catch (error) {
+      if (error instanceof Error) {
+        sweetAlertError("Oops!", "Wrong details 😒");
+      }
+      this.loginForm.reset();
+    } finally {
+      this.spinner.hide();
     }
+  }
+
+
 }
+
