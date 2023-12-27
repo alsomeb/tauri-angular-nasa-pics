@@ -20,7 +20,7 @@
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <p class="fw-semibold" *ngIf="registerForm.controls['password'].invalid && (registerForm.controls['password'].touched || registerForm.controls['password'].dirty)">Password is required</p>
+                <p class="fw-semibold" *ngIf="registerForm.controls['password'].invalid && (registerForm.controls['password'].touched || registerForm.controls['password'].dirty)">Password required, 7 characters</p>
                 <input type="password" placeholder="Enter password" class="form-control border border-dark-subtle" id="password" formControlName="password">
             </div>
             <button type="submit" class="btn btn-primary my-3" [disabled]="!registerForm.valid">Submit</button>
