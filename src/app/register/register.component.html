@@ -9,16 +9,6 @@
                 <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
             </div>
             <div class="mb-3">
-                <label for="firstName" class="form-label">First Name</label>
-                <p class="fw-semibold" *ngIf="registerForm.controls['firstName'].invalid && (registerForm.controls['firstName'].touched || registerForm.controls['firstName'].dirty)">First name is required</p>
-                <input type="text" placeholder="First name" class="form-control border border-dark-subtle" id="firstName" formControlName="firstName">
-            </div>
-            <div class="mb-3">
-                <label for="lastName" class="form-label">Last Name</label>
-                <p class="fw-semibold" *ngIf="registerForm.controls['lastName'].invalid && (registerForm.controls['lastName'].touched || registerForm.controls['lastName'].dirty)">Last name is required</p>
-                <input type="text" placeholder="Last name" class="form-control border border-dark-subtle" id="lastName" formControlName="lastName">
-            </div>
-            <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
                 <p class="fw-semibold" *ngIf="registerForm.controls['password'].invalid && (registerForm.controls['password'].touched || registerForm.controls['password'].dirty)">Password required, 7 characters</p>
                 <input type="password" placeholder="Enter password" class="form-control border border-dark-subtle" id="password" formControlName="password">

@@ -4,6 +4,7 @@ import {RouterLink} from "@angular/router";
 import {NgIf} from "@angular/common";
 import {SupaAuthService} from "../service/supa-auth.service";
 import {NgxSpinnerService} from "ngx-spinner";
+import {sweetAlertError, sweetAlertSuccess} from "../alerts/alerts";
 
 type RegisterUser = {
   email: string,
@@ -35,28 +36,22 @@ export class RegisterComponent implements OnInit {
     // FormBuilder
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email, Validators.minLength(5)]],
-      firstName: ['', [Validators.required, Validators.minLength(2)]],
-      lastName: ['', [Validators.required, Validators.minLength(2)]],
       password: ['', [Validators.required, Validators.minLength(7)]],
     });
   }
 
   async handleRegister() {
-    console.log(this.registerForm);
     try {
       this.spinner.show()
       const newUser: RegisterUser = this.registerForm.value; // This will be same type as 'RegisterUser'
       await this.authService.register(newUser.email, newUser.password)
-      alert('Check your email for the login link!');
+      sweetAlertSuccess("Welcome Onboard!", "Check Email for confirm account link then login here", "")
     } catch (error) {
-      if (error instanceof Error) {
-        alert(error.message)
-      }
+      sweetAlertError("Oops!", "This email might be taken or something fishy is up!")
       this.spinner.hide()
     } finally {
       this.registerForm.reset()
       this.spinner.hide()
     }
   }
-
 }

@@ -16,7 +16,11 @@ export class SupaAuthService {
   _session: AuthSession | null = null
 
   constructor() {
-    this.supabaseClient = createClient(environment.supabase.url, environment.supabase.apikey) // url + key from dev env
+    this.supabaseClient = createClient(environment.supabaseDevMode.url, environment.supabaseDevMode.apikey) // url + key from dev env
+    this.supabaseClient.auth.onAuthStateChange((event, session) => {
+      console.log("Auth event: " + event)
+      console.log("Auth session: " + session)
+    })
   }
 
   get session() {
@@ -38,7 +42,7 @@ export class SupaAuthService {
           email,
           password,
           options: {
-            emailRedirectTo: 'http://localhost:1420/confirmed'
+            emailRedirectTo: environment.supabaseDevMode.signUpRedirectUrlDevMode
           }
         },
     )
