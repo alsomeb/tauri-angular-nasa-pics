@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {NgxSpinnerService} from "ngx-spinner";
 import {SupaAuthService} from "../service/supa-auth.service";
 import {sweetAlertError} from "../alerts/alerts";
+import {NgIf} from "@angular/common";
 
 type LoginUser = {
   email: string,
@@ -15,7 +16,8 @@ type LoginUser = {
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    RouterLink
+    RouterLink,
+    NgIf
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
@@ -26,7 +28,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private spinner: NgxSpinnerService,
-              private authService: SupaAuthService) {
+              private authService: SupaAuthService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -41,11 +44,17 @@ export class LoginComponent implements OnInit {
     try {
       this.spinner.show()
       const loginUser: LoginUser = this.loginForm.value; // This will be same type as 'RegisterUser'
-      await this.authService.register(loginUser.email, loginUser.password)
+      const {error} = await this.authService.login(loginUser.email, loginUser.password)
+      if (error) {
+        throw error
+      } else {
+        this.router.navigate(['/dashboard']);
+        this.spinner.hide()
+      }
     } catch (error) {
-      sweetAlertError("Oops!", "Wrong details 😒")
-      this.spinner.hide()
-    } finally {
+      if (error instanceof Error) {
+        sweetAlertError("Oops!", "Wrong details 😒")
+      }
       this.loginForm.reset()
       this.spinner.hide()
     }

@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
-import {AuthChangeEvent, AuthSession, createClient, Session, SupabaseClient, User} from "@supabase/supabase-js";
+import {createClient, SupabaseClient, User} from "@supabase/supabase-js";
 import {environment} from "../../environments/environment.development";
+import {BehaviorSubject} from "rxjs";
 
 export interface Profile {
   id?: string
@@ -13,27 +14,14 @@ export interface Profile {
 })
 export class SupaAuthService {
   private supabaseClient: SupabaseClient;
-  _session: AuthSession | null = null
+  private currentUserSubject: BehaviorSubject<boolean | User | any> = new BehaviorSubject(null)
 
   constructor() {
     this.supabaseClient = createClient(environment.supabaseDevMode.url, environment.supabaseDevMode.apikey) // url + key from dev env
     this.supabaseClient.auth.onAuthStateChange((event, session) => {
-      console.log("Auth event: " + event)
-      console.log("Auth session: " + session)
+      this.setUserSession()
     })
   }
-
-  get session() {
-    this.supabaseClient.auth.getSession().then(({ data }) => {
-      this._session = data.session
-    })
-    return this._session
-  }
-
-  authChanges(callback: (event: AuthChangeEvent, session: Session | null) => void) {
-    return this.supabaseClient.auth.onAuthStateChange(callback)
-  }
-
 
   // Register
   register(email: string, password: string) {
@@ -47,6 +35,23 @@ export class SupaAuthService {
         },
     )
   }
+
+  getCurrentUser() {
+    return this.currentUserSubject.asObservable();
+  }
+
+   async setUserSession() {
+     const currSession = await this.supabaseClient.auth.getSession();
+     const currUser = currSession.data.session?.user;
+
+     if (currUser) {
+       this.currentUserSubject.next(currUser);
+       console.log(currUser);
+     } else {
+       this.currentUserSubject.next(false); // Guard logic needs this
+       console.log(currUser);
+     }
+   }
 
 
   // Login

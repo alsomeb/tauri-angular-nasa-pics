@@ -4,13 +4,16 @@
         <form [formGroup]="loginForm" (ngSubmit)="handleLogin()">
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
+                <p class="fw-semibold" *ngIf="loginForm.controls['email'].invalid && (loginForm.controls['email'].touched || loginForm.controls['email'].dirty)">Email is required</p>
                 <input type="text" placeholder="Enter email" class="form-control border border-dark-subtle" id="email" formControlName="email">
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
+                <p class="fw-semibold" *ngIf="loginForm.controls['password'].invalid && (loginForm.controls['password'].touched || loginForm.controls['password'].dirty)">Password is required</p>
                 <input type="password" placeholder="Enter password" class="form-control border border-dark-subtle" id="password" formControlName="password">
             </div>
             <button type="submit" class="btn btn-primary my-3">Submit</button>
+            <span *ngIf="loginForm.valid" id="checkmark" class="ps-3"><i class="fa-solid fa-check"></i></span>
             <div id="registerHelp" class="form-text my-3">Dont have an account? <a class="link-dark" routerLink="/register">Register</a></div>
         </form>
     </div>
