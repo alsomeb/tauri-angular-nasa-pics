@@ -7,8 +7,6 @@ import {NgxSpinnerService} from "ngx-spinner";
 
 type RegisterUser = {
   email: string,
-  firstName: string,
-  lastName: string,
   password: string
 }
 
@@ -47,11 +45,13 @@ export class RegisterComponent implements OnInit {
     console.log(this.registerForm);
     try {
       this.spinner.show()
-      const newUser: RegisterUser = this.registerForm.value; // This will be same like type RegisterUser
-      console.log(newUser);
-
+      const newUser: RegisterUser = this.registerForm.value; // This will be same type as 'RegisterUser'
+      await this.authService.register(newUser.email, newUser.password)
+      alert('Check your email for the login link!');
     } catch (error) {
-      console.log(error)
+      if (error instanceof Error) {
+        alert(error.message)
+      }
       this.spinner.hide()
     } finally {
       this.registerForm.reset()

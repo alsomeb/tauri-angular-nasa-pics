@@ -2,6 +2,12 @@ import {Injectable} from '@angular/core';
 import {AuthChangeEvent, AuthSession, createClient, Session, SupabaseClient, User} from "@supabase/supabase-js";
 import {environment} from "../../environments/environment.development";
 
+export interface Profile {
+  id?: string
+  username: string
+  avatar_url: string
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -27,7 +33,15 @@ export class SupaAuthService {
 
   // Register
   register(email: string, password: string) {
-    return this.supabaseClient.auth.signUp({email, password})
+    return this.supabaseClient.auth.signUp(
+        {
+          email,
+          password,
+          options: {
+            emailRedirectTo: 'http://localhost:1420/confirmed'
+          }
+        },
+    )
   }
 
 
@@ -36,11 +50,20 @@ export class SupaAuthService {
     return this.supabaseClient.auth.signInWithPassword({email, password})
   }
 
+  // Avatars
+  downLoadImage(path: string) {
+    return this.supabaseClient.storage.from('avatars').download(path)
+  }
+
+  uploadAvatar(filePath: string, file: File) {
+    return this.supabaseClient.storage.from('avatars').upload(filePath, file)
+  }
+
   // profile
   profile(user: User) {
     return this.supabaseClient
         .from('profiles')
-        .select(`username, website, avatar_url`)
+        .select(`username, avatar_url`)
         .eq('id', user.id)
         .single()
   }

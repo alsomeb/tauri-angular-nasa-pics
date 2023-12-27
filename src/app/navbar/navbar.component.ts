@@ -15,7 +15,7 @@ import {invoke} from "@tauri-apps/api";
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnInit {
-  sysTime: string = "sys-time err"
+  sysTime: string = "-"
   ngOnInit(): void {
     this.getSystemTime();
   }

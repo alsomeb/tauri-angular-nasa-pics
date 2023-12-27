@@ -15,6 +15,10 @@ export const routes: Routes = [
             import('./register/register.component').then((comp) => comp.RegisterComponent)
     },
     {
+        path: 'confirm', loadComponent: () =>
+            import('./confirm/confirm.component').then((comp) => comp.ConfirmComponent)
+    },
+    {
         path: 'dashboard', loadComponent: () =>
             import('./dashboard/dashboard.component').then((comp) => comp.DashboardComponent)
     },
