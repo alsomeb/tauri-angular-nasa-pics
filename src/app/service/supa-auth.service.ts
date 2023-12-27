@@ -9,6 +9,9 @@ export interface Profile {
   avatar_url: string
 }
 
+// https://www.youtube.com/watch?v=G_kqGWeMORQ&list=PLMVHTRBusikrZOUHt3Z-VeIdRaE4JNtpf&index=5&t=1923s&ab_channel=SimonGrimm
+// https://supabase.com/docs/guides/getting-started/tutorials/with-angular
+
 @Injectable({
   providedIn: 'root'
 })
@@ -78,4 +81,3 @@ export class SupaAuthService {
   }
 }
 
-// https://supabase.com/docs/guides/getting-started/tutorials/with-angular
