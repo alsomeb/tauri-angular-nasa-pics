@@ -45,7 +45,7 @@ export class SupaAuthService {
 
 
   setUserSession() {
-      const currSession = this.supabaseClient.auth.getSession().then((session) => {
+     this.supabaseClient.auth.getSession().then((session) => {
         const currUser = session.data.session?.user;
 
         if (currUser) {

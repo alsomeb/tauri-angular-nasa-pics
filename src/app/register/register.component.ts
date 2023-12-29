@@ -44,7 +44,8 @@ export class RegisterComponent implements OnInit {
     try {
       this.spinner.show()
       const newUser: RegisterUser = this.registerForm.value; // This will be same type as 'RegisterUser'
-      await this.authService.register(newUser.email, newUser.password)
+      const data = await this.authService.register(newUser.email, newUser.password)
+      console.log(data);
       sweetAlertSuccess("Welcome Onboard!", "If Email isn't registered you should get an confirm email", "")
     } catch (error) {
       sweetAlertError("Oops!", "This email might be taken or something fishy is up!")
