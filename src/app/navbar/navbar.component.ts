@@ -26,3 +26,5 @@ export class NavbarComponent implements OnInit {
     })
   }
 }
+
+// TODO IF LOGGED IN DONT SHOW REGESITER / LOGIN, SHOW LOGOUT, IMPL LOGOUT LOGIC

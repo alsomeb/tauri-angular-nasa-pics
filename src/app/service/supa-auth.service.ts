@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {createClient, SupabaseClient, User} from "@supabase/supabase-js";
 import {environment} from "../../environments/environment.development";
 import {BehaviorSubject} from "rxjs";
+import {Router} from "@angular/router";
 
 export interface Profile {
   id?: string
@@ -19,7 +20,7 @@ export class SupaAuthService {
   private supabaseClient: SupabaseClient;
   private currentUserSubject: BehaviorSubject<boolean | User | any> = new BehaviorSubject(null)
 
-  constructor() {
+  constructor(private router: Router) {
     this.supabaseClient = createClient(environment.supabaseDevMode.url, environment.supabaseDevMode.apikey) // url + key from dev env
     this.supabaseClient.auth.onAuthStateChange((event, session) => {
       this.setUserSession()
@@ -39,7 +40,15 @@ export class SupaAuthService {
     )
   }
 
-  getCurrentUser() {
+isLoggedInRedirectDashboard() {
+    const isLoggedIn = this.isLoggedIn();
+    if (isLoggedIn) {
+        this.router.navigate(['/dashboard']);
+    }
+}
+
+
+    getCurrentUser() {
     return this.currentUserSubject.asObservable();
   }
 

@@ -33,6 +33,7 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.authService.isLoggedInRedirectDashboard();
     // FormBuilder
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email, Validators.minLength(5)]],
