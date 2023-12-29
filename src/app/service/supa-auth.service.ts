@@ -43,6 +43,11 @@ export class SupaAuthService {
     return this.currentUserSubject.asObservable();
   }
 
+  // Returns the session, refreshing it if necessary. The session returned can be null if the session is not detected which can happen in the event a user is not signed-in or has logged out.
+  isLoggedIn() {
+      return this.supabaseClient.auth.getSession() != null
+  }
+
 
   setUserSession() {
      this.supabaseClient.auth.getSession().then((session) => {
