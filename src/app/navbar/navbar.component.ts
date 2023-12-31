@@ -40,3 +40,5 @@ export class NavbarComponent implements OnInit {
     })
   }
 }
+
+// TODO CHECK NAV RESETS WHEN LOGGED OUT
