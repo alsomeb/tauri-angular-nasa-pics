@@ -13,5 +13,15 @@ li a:hover {
 
 .active {
     color: white !important;
-    font-weight: bold;
+    font-weight: bold !important;
 }
+
+.active-nav {
+    color: #FFAD84 !important;
+}
+
+.dropdown-item:hover {
+    background-color: rgba(245, 114, 15, 0.61) !important;
+}
+
+

@@ -13,8 +13,18 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 @if (isLoggedIn) {
-                    <li class="nav-item ms-3">
-                        <a class="nav-link" routerLinkActive="active" [routerLink]="['/dashboard']" aria-current="page"><i class="fa-solid fa-rocket me-2"></i>Dashboard</a>
+                    <li class="nav-item dropdown ms-3">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Menu
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" routerLinkActive="active-nav" [routerLink]="['/dashboard']"><i class="fa-solid fa-rocket me-2"></i>Dashboard</a>
+                            </li>
+                            <li><a class="dropdown-item" routerLinkActive="active-nav" [routerLink]="['/search']"><i class="fa-solid fa-magnifying-glass me-2"></i>Search</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
                     </li>
                 } @else {
                     <li class="nav-item ms-3">

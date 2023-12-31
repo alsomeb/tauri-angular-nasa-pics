@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {NgOptimizedImage} from "@angular/common";
+import {NgIf, NgOptimizedImage} from "@angular/common";
 import {RouterLink, RouterLinkActive} from "@angular/router";
 import {invoke} from "@tauri-apps/api";
 import {SupaAuthService} from "../service/supa-auth.service";
@@ -10,7 +10,8 @@ import {SupaAuthService} from "../service/supa-auth.service";
   imports: [
     NgOptimizedImage,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    NgIf
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
@@ -39,5 +40,3 @@ export class NavbarComponent implements OnInit {
     })
   }
 }
-
-// TODO FIX LOG OUT AND CHECK NAVBAR IS CORRECT
