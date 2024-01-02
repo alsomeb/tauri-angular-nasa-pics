@@ -5,6 +5,7 @@ import {NgxSpinnerService} from "ngx-spinner";
 import {SupaAuthService} from "../service/supa-auth.service";
 import {sweetAlertError} from "../alerts/alerts";
 import {NgIf} from "@angular/common";
+import {invoke} from "@tauri-apps/api";
 
 type LoginUser = {
     email: string,
@@ -64,5 +65,10 @@ export class LoginComponent implements OnInit {
         }
     }
 
+    testRust() {
+        invoke('get_products')
+            .then((data) => console.log(data))
+            .catch((error) => console.error(error))
+    }
 }
 
