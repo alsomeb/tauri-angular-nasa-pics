@@ -100,5 +100,3 @@ export class SupaAuthService {
         .single()
   }
 }
-
-// TODO NÄR MAN LOGGAR IN SÅ ÄNDRAS INTE MENYN MÅSTE REFRESH, FIXA EN BEHAVIORSUBJECT ELLER NÅGOT
