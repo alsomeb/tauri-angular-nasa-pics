@@ -52,15 +52,13 @@ export class LoginComponent implements OnInit {
 
       this.router.navigate(['/dashboard']);
     } catch (error) {
+      this.spinner.hide()
       if (error instanceof Error) {
         sweetAlertError("Oops!", "Wrong details 😒");
       }
-      this.loginForm.reset();
     } finally {
-      this.spinner.hide();
+      this.spinner.hide()
     }
   }
-
-
 }
 

@@ -74,7 +74,7 @@ export class SupaAuthService {
 
   // Login
   async login(email: string, password: string) {
-    return await this.supabaseClient.auth.signInWithPassword({email, password})
+      return await this.supabaseClient.auth.signInWithPassword({email, password})
   }
 
   // logout
