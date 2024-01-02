@@ -42,7 +42,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   async logout() {
     try {
       this.spinner.show()
-      const { error } = await this.authService.signOut();
+      const {error} = await this.authService.signOut();
 
       if (error) {
         throw error;
