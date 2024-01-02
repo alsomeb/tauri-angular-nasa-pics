@@ -18,25 +18,17 @@ import {NgxSpinnerService} from "ngx-spinner";
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnInit, OnDestroy {
-  isLoggedIn: boolean | undefined = false;
+  isLoggedIn: boolean = false;
   sysTime: string = "-"
 
   constructor(private authService: SupaAuthService, private spinner: NgxSpinnerService, private router: Router) {
   }
 
   ngOnInit(): void {
-    this.checkSession();
-    this.getSystemTime();
-  }
-
-  checkSession() {
-    this.authService.getSession().then((session) => {
-      const currUser = session.data.session?.user;
-
-      this.isLoggedIn = !!currUser;
-    }).catch(() => {
-      this.isLoggedIn = false
+    this.authService.getIsLoggedIn().subscribe((val) => {
+      this.isLoggedIn = val;
     })
+    this.getSystemTime();
   }
 
   async logout() {
