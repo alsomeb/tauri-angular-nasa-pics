@@ -22,12 +22,12 @@ export const routes: Routes = [
     {
         path: 'search', loadComponent: () =>
             import('./search/search.component').then((comp) => comp.SearchComponent),
-        canActivate: [() => authGuard]
+        canActivate: [authGuard]
     },
     {
         path: 'dashboard', loadComponent: () =>
             import('./dashboard/dashboard.component').then((comp) => comp.DashboardComponent),
-        canActivate: [() => authGuard]
+        canActivate: [authGuard]
     },
     {
         path: '**', redirectTo: '', pathMatch: "full"
