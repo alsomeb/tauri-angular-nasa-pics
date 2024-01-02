@@ -18,6 +18,7 @@ export interface Profile {
 export class SupaAuthService {
   private supabaseClient: SupabaseClient;
   private currentUserSubject: BehaviorSubject<boolean | User | any> = new BehaviorSubject(null)
+  // TODO, TA BORT ?
   private isLoggedInSubject: BehaviorSubject<boolean | User | any> = new BehaviorSubject(false)
 
   constructor() {
