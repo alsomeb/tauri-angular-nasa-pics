@@ -1,7 +1,6 @@
-import { Routes } from "@angular/router";
+import {Routes} from "@angular/router";
 import {LoginComponent} from "./login/login.component";
 import {authGuard} from "./guards/auth.guard";
-import {DashboardComponent} from "./dashboard/dashboard.component";
 
 export const routes: Routes = [
     {
@@ -19,6 +18,11 @@ export const routes: Routes = [
     {
         path: 'confirm', loadComponent: () =>
             import('./confirm/confirm.component').then((comp) => comp.ConfirmComponent)
+    },
+    {
+        path: 'search', loadComponent: () =>
+            import('./search/search.component').then((comp) => comp.SearchComponent),
+        canActivate: [() => authGuard]
     },
     {
         path: 'dashboard', loadComponent: () =>

@@ -23,7 +23,7 @@
                             </li>
                             <li><a class="dropdown-item" routerLinkActive="active-nav" [routerLink]="['/search']"><i class="fa-solid fa-magnifying-glass me-2"></i>Search</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                            <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
                         </ul>
                     </li>
                 } @else {

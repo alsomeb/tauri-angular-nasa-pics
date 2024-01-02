@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.isLoggedInRedirectDashboard();
     // FormBuilder
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email, Validators.minLength(5)]],

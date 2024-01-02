@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {createClient, SupabaseClient, User} from "@supabase/supabase-js";
 import {environment} from "../../environments/environment.development";
 import {BehaviorSubject} from "rxjs";
-import {Router} from "@angular/router";
 
 export interface Profile {
   id?: string
@@ -19,8 +18,9 @@ export interface Profile {
 export class SupaAuthService {
   private supabaseClient: SupabaseClient;
   private currentUserSubject: BehaviorSubject<boolean | User | any> = new BehaviorSubject(null)
+  private isLoggedInSubject: BehaviorSubject<boolean | User | any> = new BehaviorSubject(false)
 
-  constructor(private router: Router) {
+  constructor() {
     this.supabaseClient = createClient(environment.supabaseDevMode.url, environment.supabaseDevMode.apikey) // url + key from dev env
     this.supabaseClient.auth.onAuthStateChange((event, session) => {
       this.setUserSession()
@@ -40,21 +40,8 @@ export class SupaAuthService {
     )
   }
 
-isLoggedInRedirectDashboard() {
-    const isLoggedIn = this.isLoggedIn();
-    if (isLoggedIn) {
-        this.router.navigate(['/dashboard']);
-    }
-}
-
-
     getCurrentUser() {
     return this.currentUserSubject.asObservable();
-  }
-
-  // Returns the session, refreshing it if necessary. The session returned can be null if the session is not detected which can happen in the event a user is not signed-in or has logged out.
-  isLoggedIn() {
-      return this.supabaseClient.auth.getSession() != null
   }
 
 
@@ -64,21 +51,36 @@ isLoggedInRedirectDashboard() {
 
         if (currUser) {
           this.currentUserSubject.next(currUser);
+          this.isLoggedInSubject.next(true);
           console.log(currUser);
         } else {
           this.currentUserSubject.next(false);
-          console.log('User not authenticated');
+            this.isLoggedInSubject.next(false);
+            console.log('User not authenticated');
         }
       }).catch((error) => {
         console.error('Error fetching session:', error);
-        this.currentUserSubject.next(null);
+         this.isLoggedInSubject.next(false);
+         this.currentUserSubject.next(null);
       });
   }
 
-  // Login
-  login(email: string, password: string) {
-    return this.supabaseClient.auth.signInWithPassword({email, password})
+
+
+  getSession() {
+      return this.supabaseClient.auth.getSession();
   }
+
+
+  // Login
+  async login(email: string, password: string) {
+    return await this.supabaseClient.auth.signInWithPassword({email, password})
+  }
+
+  // logout
+    async signOut() {
+        return await this.supabaseClient.auth.signOut()
+    }
 
   // Avatars
   downLoadImage(path: string) {
@@ -99,3 +101,4 @@ isLoggedInRedirectDashboard() {
   }
 }
 
+// TODO NÄR MAN LOGGAR IN SÅ ÄNDRAS INTE MENYN MÅSTE REFRESH, FIXA EN BEHAVIORSUBJECT ELLER NÅGOT
