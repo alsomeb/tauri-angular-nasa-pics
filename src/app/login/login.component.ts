@@ -50,7 +50,10 @@ export class LoginComponent implements OnInit {
         throw error;
       }
 
-      this.router.navigate(['/dashboard']);
+      // Annars funkar ej skiten att den redirect
+      setTimeout(() => {
+        this.router.navigate(['/dashboard'])
+      }, 1)
     } catch (error) {
       this.spinner.hide()
       if (error instanceof Error) {
@@ -60,5 +63,6 @@ export class LoginComponent implements OnInit {
       this.spinner.hide()
     }
   }
+
 }
 
