@@ -2,6 +2,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use chrono::Local;
+use dotenv::dotenv;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -54,7 +55,15 @@ fn get_products() -> Result<Vec<Product>, String> {
     Ok(resp)
 }
 
+#[tauri::command]
+fn test_env() -> String {
+    let api_key = std::env::var()
+}
+
 fn main() {
+    // Load environment variables from the .env file
+    dotenv.ok();
+
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![get_dt, get_products])
         .run(tauri::generate_context!())
