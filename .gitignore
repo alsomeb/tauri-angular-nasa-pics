@@ -43,3 +43,4 @@ Thumbs.db
 
 #ignore
 src/environments
+src-tauri/.env
