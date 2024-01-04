@@ -82,6 +82,7 @@ fn load_pic_by_date(date: String) -> Result<Vec<RoverPic>, String> {
 
     // https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=2015-6-3&api_key=DEMO_KEY
     // https://chat.openai.com/c/476bf9f3-e34a-43e9-9fe7-9bb67712e258
+    // https://api.nasa.gov/
 }
 /*
 fn main() -> Result<(), reqwest::Error> {
