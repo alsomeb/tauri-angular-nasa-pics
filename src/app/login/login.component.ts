@@ -66,7 +66,8 @@ export class LoginComponent implements OnInit {
     }
 
     testRust() {
-        invoke('get_products')
+        // TODO TRY OUT DEMO ENDPOINT NASA
+        invoke('test_env')
             .then((data) => console.log(data))
             .catch((error) => console.error(error))
     }

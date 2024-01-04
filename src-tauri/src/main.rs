@@ -6,12 +6,29 @@ use dotenv::dotenv;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
-struct Product {
-    title: String,
-    price: f64,
-    description: String,
-    image: String,
-    category: String
+struct RoverPic {
+    id: u32,
+    sol: u32,
+    camera: Camera,
+    img_src: String,
+    earth_date: String,
+    rover: Rover,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+struct Camera {
+    id: u32,
+    full_name: String,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+struct Rover {
+    id: u32,
+    name: String,
+    landing_date: String,
+    launch_date: String,
+    status: String,
+    total_photos: u32
 }
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
@@ -22,6 +39,7 @@ fn get_dt() -> String {
     formatted_string // last row automatically return in rust
 }
 
+/*
 // test api for future ref
 #[tauri::command]
 fn get_products() -> Result<Vec<Product>, String> {
@@ -55,17 +73,44 @@ fn get_products() -> Result<Vec<Product>, String> {
     Ok(resp)
 }
 
+ */
+
 #[tauri::command]
-fn test_env() -> String {
-    let api_key = std::env::var()
+fn load_pic_by_date(date: String) -> Result<Vec<RoverPic>, String> {
+    let test_url = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=2015-6-3&api_key=DEMO_KEY";
+    let resp = reqwest::blocking::get(test_url)?;
+
+    // https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=2015-6-3&api_key=DEMO_KEY
+    // https://chat.openai.com/c/476bf9f3-e34a-43e9-9fe7-9bb67712e258
 }
+/*
+fn main() -> Result<(), reqwest::Error> {
+    let test_url = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=2015-6-3&api_key=DEMO_KEY";
+    let response = reqwest::blocking::get(test_url)?.json::<serde_json::Value>()?;
+
+    let photos = response["photos"].as_array().unwrap_or_default();
+
+    // Collecting RoverPic instances from the photos
+    let rover_pics: Vec<RoverPic> = photos
+        .iter()
+        .filter_map(|photo| serde_json::from_value::<RoverPic>(photo.clone()).ok())
+        .collect();
+
+    // Displaying the collected RoverPic instances
+    for rover_pic in rover_pics {
+        println!("{:?}", rover_pic);
+    }
+
+    Ok(())
+}
+ */
 
 fn main() {
     // Load environment variables from the .env file
-    dotenv.ok();
+    dotenv().expect("Failed to read .env file");
 
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![get_dt, get_products])
+        .invoke_handler(tauri::generate_handler![get_dt, get_products, load_pic_by_date])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
