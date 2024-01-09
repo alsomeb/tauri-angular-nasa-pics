@@ -85,6 +85,8 @@ fn load_pic_by_date(date: String) -> Result<Vec<RoverPic>, String> {
         return Err("Invalid date".to_string());
     }
 
+    // TODO, DONT FETCH ALL RESULTS, LIMIT TO 25 ??
+
     // Retrieves the NASA API key from environment variables or uses a demo key if not found.
     let api_key = std::env::var("NASA_API_KEY").unwrap_or_else(|_| "DEMO_KEY".to_string());
 
