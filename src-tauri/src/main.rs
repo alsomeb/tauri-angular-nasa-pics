@@ -75,42 +75,81 @@ fn get_products() -> Result<Vec<Product>, String> {
 
  */
 
+// Load pictures taken by the Curiosity rover on a specific date
+// This function takes a date parameter as input and returns a Result with either a vector of RoverPic instances or a String representing an error.
+// This func is not ASYNC
 #[tauri::command]
 fn load_pic_by_date(date: String) -> Result<Vec<RoverPic>, String> {
-    let test_url = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=2015-6-3&api_key=DEMO_KEY";
-    let resp = reqwest::blocking::get(test_url)?;
-
-    // https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=2015-6-3&api_key=DEMO_KEY
-    // https://chat.openai.com/c/476bf9f3-e34a-43e9-9fe7-9bb67712e258
-}
-/*
-fn main() -> Result<(), reqwest::Error> {
-    let test_url = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=2015-6-3&api_key=DEMO_KEY";
-    let response = reqwest::blocking::get(test_url)?.json::<serde_json::Value>()?;
-
-    let photos = response["photos"].as_array().unwrap_or_default();
-
-    // Collecting RoverPic instances from the photos
-    let rover_pics: Vec<RoverPic> = photos
-        .iter()
-        .filter_map(|photo| serde_json::from_value::<RoverPic>(photo.clone()).ok())
-        .collect();
-
-    // Displaying the collected RoverPic instances
-    for rover_pic in rover_pics {
-        println!("{:?}", rover_pic);
+    // Checks if the provided date is empty and returns an error if it is.
+    if date.is_empty() {
+        return Err("Invalid date".to_string());
     }
 
-    Ok(())
+    // Retrieves the NASA API key from environment variables or uses a demo key if not found.
+    let api_key = std::env::var("NASA_API_KEY").unwrap_or_else(|_| "DEMO_KEY".to_string());
+
+    // Construct the URL for the NASA API with the provided date and API key
+    let url = format!(
+        "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date={}&api_key={}",
+        date, api_key
+    );
+
+    // Makes an HTTP GET request to the NASA API and converts any request error to a String if it occurs.
+    // Uses a ref '&' to the Owned String 'url'
+    let response = reqwest::blocking::get(&url).map_err(|err| err.to_string())?;
+
+
+
+    // Extracts the "photos" array from the JSON response, creating an owned copy of the vector.
+    /*
+        - map_err is a method that transforms the Err variant of a Result using a closure. In this case, it takes the err (which is a serde_json::Error) and converts it to a String using to_string().
+          This is done to convert the specific error type into a more generic String type, ensuring compatibility with the overall Result type.
+
+        - The ? operator is the "try" operator in Rust. It is used to propagate errors. If the result of the expression is Ok, the value is unwrapped; if it's Err,
+          the error is returned early from the function with the ? operator.
+          In this case, if an error occurred during the conversion, it will return the error early, and the subsequent code won't be executed.
+
+        - After handling the error, the code accesses the "photos" field of the deserialized JSON.
+          This assumes that the JSON structure contains a field named "photos." It's used to extract the relevant part of the JSON response for further processing.
+     */
+    let photos = response
+        .json::<serde_json::Value>() // Represents any valid JSON value.
+        .map_err(|err| err.to_string())?["photos"]
+        .as_array() // If the Value is an Array, returns the associated vector. Returns None otherwise.
+        .cloned() // Cloning the Vec<Value> to create an owned copy
+        .unwrap_or_default();
+
+
+
+    /*
+        Iterates through the photos vector, clones each element to avoid ownership issues, tries to deserialize each cloned element into a RoverPic,
+        filters out any deserialization errors using ok(), and finally collects the successfully deserialized RoverPic instances into a new vector called rover_pics.
+
+        This approach ensures that only valid RoverPic instances are collected in the resulting vector,
+        and any deserialization errors are gracefully ignored. The use of clone() is essential to handle the ownership model in Rust
+        and avoid moving the original photo object during deserialization. The ok() method is then used to filter out None results,
+        leaving only the successfully deserialized instances
+
+     */
+    let rover_pics: Vec<RoverPic> = photos
+        .iter()
+        .filter_map(|photo| serde_json::from_value::<RoverPic>(photo.clone()).ok())// Creates a cloned copy of the current photo. This is done to avoid ownership issues when deserializing.
+        .collect();
+
+    // Return the successful collected RoverPic instances as a Result
+    Ok(rover_pics)
 }
- */
+
+
+
+
 
 fn main() {
     // Load environment variables from the .env file
     dotenv().expect("Should contain .env file in src-tauri folder");
 
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![get_dt, get_products, load_pic_by_date])
+        .invoke_handler(tauri::generate_handler![get_dt, load_pic_by_date])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

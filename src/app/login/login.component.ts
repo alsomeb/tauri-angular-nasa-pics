@@ -67,7 +67,9 @@ export class LoginComponent implements OnInit {
 
     testRust() {
         // TODO TRY OUT DEMO ENDPOINT NASA
-        invoke('test_env')
+        invoke('load_pic_by_date', {
+            date: "2023-08-23"
+        })
             .then((data) => console.log(data))
             .catch((error) => console.error(error))
     }
