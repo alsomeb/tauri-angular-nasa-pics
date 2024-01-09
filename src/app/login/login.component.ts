@@ -5,7 +5,6 @@ import {NgxSpinnerService} from "ngx-spinner";
 import {SupaAuthService} from "../service/supa-auth.service";
 import {sweetAlertError} from "../alerts/alerts";
 import {NgIf} from "@angular/common";
-import {invoke} from "@tauri-apps/api";
 
 type LoginUser = {
     email: string,
@@ -65,13 +64,5 @@ export class LoginComponent implements OnInit {
         }
     }
 
-    testRust() {
-        // TODO TRY OUT DEMO ENDPOINT NASA
-        invoke('load_pic_by_date', {
-            date: "2023-08-23"
-        })
-            .then((data) => console.log(data))
-            .catch((error) => console.error(error))
-    }
 }
 
