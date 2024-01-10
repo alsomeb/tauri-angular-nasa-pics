@@ -73,6 +73,7 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
                 which allows Angular to track the changes and trigger change detection appropriately.
                 It's a way to make sure that asynchronous operations are properly handled by Angular.
 
+                Wrapping code in this ensures that they happen within Angular's zone and helps prevent issues related to change detection and state synchronization.
              */
 
             this.ngZone.run(() => {

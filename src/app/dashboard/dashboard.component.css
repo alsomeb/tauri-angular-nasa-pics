@@ -1,0 +1,12 @@
+.example-card {
+    max-width: 400px;
+}
+
+.example-header-image {
+    background-image: url('https://icons.iconarchive.com/icons/zairaam/bumpy-planets/256/06-mars-icon.png');
+    background-size: cover;
+}
+
+.card-btn {
+    color: white !important;
+}
