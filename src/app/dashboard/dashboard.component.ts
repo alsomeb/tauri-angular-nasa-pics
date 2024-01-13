@@ -42,7 +42,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     // Subtract 7 days
     const sevenDaysAgo = new Date(currentDate);
-    sevenDaysAgo.setDate(currentDate.getDate() - 7);
+    sevenDaysAgo.setDate(currentDate.getDate() - 10);
 
     return  sevenDaysAgo.toISOString().split("T")[0];
   }
