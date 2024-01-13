@@ -1,56 +1,43 @@
 <div class="container">
+    @if (!isLoading) {
     <div class="h2 text-center my-5">Dashboard</div>
-    <div>
-        <div class="row">
-            <!-- I used col-md-6 to make the columns stack horizontally on medium-sized screens and larger. -->
-            <div class="col-md-4 mb-5">
-                <mat-card class="example-card">
-                    <mat-card-header>
-                        <div mat-card-avatar class="example-header-image"></div>
-                        <mat-card-title>Sol 3927</mat-card-title>
-                        <mat-card-subtitle>Curiosity</mat-card-subtitle>
-                    </mat-card-header>
-                    <img mat-card-image src="https://mars.nasa.gov/msl-raw-images/msss/03927/mcam/3927ML1046490061505535C00_DXXX.jpg" alt="Mars Test Photo">
-                    <mat-card-content>
-                    </mat-card-content>
-                    <mat-card-actions class="my-3 d-flex justify-content-center align-content-center">
-                        <button class="card-btn me-2" mat-button>INFO</button>
-                    </mat-card-actions>
-                </mat-card>
-            </div>
-            <div class="col-md-4 mb-5">
-                <mat-card class="example-card">
-                    <mat-card-header>
-                        <div mat-card-avatar class="example-header-image"></div>
-                        <mat-card-title>Sol 3927</mat-card-title>
-                        <mat-card-subtitle>Curiosity</mat-card-subtitle>
-                    </mat-card-header>
-                    <img mat-card-image src="https://mars.nasa.gov/msl-raw-images/msss/03927/mcam/3927ML1046490061505535C00_DXXX.jpg" alt="Mars Test Photo">
-                    <mat-card-content>
-                    </mat-card-content>
-                    <mat-card-actions class="my-3 d-flex justify-content-center align-content-center">
-                        <button class="card-btn me-2" mat-button>INFO</button>
-                    </mat-card-actions>
-                </mat-card>
-            </div>
-            <div class="col-md-4 mb-5">
-                <mat-card class="example-card">
-                    <mat-card-header>
-                        <div mat-card-avatar class="example-header-image"></div>
-                        <mat-card-title>Sol 3927</mat-card-title>
-                        <mat-card-subtitle>Curiosity</mat-card-subtitle>
-                    </mat-card-header>
-                    <img mat-card-image src="https://mars.nasa.gov/msl-raw-images/msss/03927/mcam/3927ML1046490061505535C00_DXXX.jpg" alt="Mars Test Photo">
-                    <mat-card-content>
-                    </mat-card-content>
-                    <mat-card-actions class="my-3 d-flex justify-content-center align-content-center">
-                        <button class="card-btn me-2" mat-button>INFO</button>
-                    </mat-card-actions>
-                </mat-card>
-            </div>
+        <div>
+            <p class="fw-semibold h5">Pictures from Mars, a week ago.</p>
+            <p class="mb-4">Want more? <a class="link-dark" routerLink="/search"><strong>Search</strong></a> a specific date</p>
         </div>
-    </div>
-    <div class="mt-3">
-        <button class="btn btn-secondary" (click)="testFetch()">Test Fetch Nasa API</button>
+    }
+    <div>
+        <div class="row pb-5">
+            <!-- I used col-md-6 to make the columns stack horizontally on medium-sized screens and larger. -->
+            @for (roverPic of roverPics; track roverPic.id) {
+                <div class="col-md-4 mb-5">
+                    <mat-card class="example-card">
+                        <mat-card-header>
+                            <div mat-card-avatar class="example-header-image"></div>
+                            <mat-card-title>Sol {{ roverPic.sol }}</mat-card-title>
+                            <mat-card-subtitle>{{ roverPic.rover.name }}</mat-card-subtitle>
+                        </mat-card-header>
+                        <img mat-card-image
+                             [src]="roverPic.img_src"
+                             alt="Mars Test Photo">
+                        <mat-card-content>
+                        </mat-card-content>
+                        <mat-card-actions class="my-3 d-flex justify-content-center align-content-center">
+                            <button class="card-btn me-2" mat-button>Check out more</button>
+                        </mat-card-actions>
+                    </mat-card>
+                </div>
+            } @empty {
+                @if (isLoading) {
+                    <div class="d-flex justify-content-center gap-3 mt-5">
+                        <div class="spinner-grow" role="status">
+                        </div>
+                        <p class="fw-semibold h4">Contacting NASA Rover..</p>
+                    </div>
+                } @else {
+                    <div class="fw-semibold">No pictures of this date.</div>
+                }
+            }
+        </div>
     </div>
 </div>
