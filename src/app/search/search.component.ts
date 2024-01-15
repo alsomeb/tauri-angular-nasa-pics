@@ -1,15 +1,16 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
 import {MatDividerModule} from "@angular/material/divider";
 import {NgClass, NgIf, NgStyle} from "@angular/common";
 import {NasaRoverService, RoverPic} from "../service/nasa-rover.service";
 import {NgxSpinnerService} from "ngx-spinner";
+import {MatCardModule} from "@angular/material/card";
 
 @Component({
   selector: 'app-search',
   standalone: true,
-  imports: [ReactiveFormsModule, MatButtonModule, MatDividerModule, NgStyle, NgClass, NgIf],
+  imports: [ReactiveFormsModule, MatButtonModule, MatDividerModule, NgStyle, NgClass, NgIf, MatCardModule],
   templateUrl: './search.component.html',
   styleUrl: './search.component.css'
 })
@@ -18,7 +19,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   searchForm!: FormGroup;
   hasResult: boolean = false;
 
-  constructor(private fb: FormBuilder, private roverService: NasaRoverService, private spinner: NgxSpinnerService) {
+  constructor(private fb: FormBuilder, private roverService: NasaRoverService, private spinner: NgxSpinnerService, private ngZone: NgZone) {
   }
 
   ngOnInit(): void {
@@ -36,6 +37,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   async fetchPicsByDate(date: string) {
+    this.spinner.show();
     try {
       this.roverPics = await this.roverService.getRoverPicturesByDate(date);
       this.hasResult = true;
@@ -47,19 +49,24 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
   }
 
-  async handleSearch() {
-    // Reset
-    this.spinner.show();
-    this.hasResult = false;
-    this.roverPics = [];
+   handleSearch() {
+    // Blir problem med async tyvärr om ej körs innanför ngZone
+     this.ngZone.run(() => {
+       // Reset
+       this.hasResult = false;
+       this.roverPics = [];
 
-    // Fetch date from reactive form
-    const date = this.searchForm.get("date")?.value
+       // Fetch date from reactive form
+       const date = this.searchForm.get("date")?.value
 
-    if (date) {
-      await this.fetchPicsByDate(date);
-      console.log(this.roverPics);
-      console.log(this.hasResult);
-    }
+       if (date) {
+         this.fetchPicsByDate(date);
+       }
+     })
   }
+
+  showMore(rover: RoverPic) {
+    console.log(rover);
+  }
+
 }

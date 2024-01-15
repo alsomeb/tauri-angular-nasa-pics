@@ -5,3 +5,13 @@ button {
 .errors {
     color: red;
 }
+
+.example-header-image {
+    background-image: url('https://icons.iconarchive.com/icons/zairaam/bumpy-planets/256/06-mars-icon.png');
+    background-size: cover;
+}
+
+.dynamic {
+    aspect-ratio: 16/9;
+    overflow: hidden;
+}

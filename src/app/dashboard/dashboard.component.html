@@ -17,13 +17,15 @@
                             <mat-card-title>Sol {{ roverPic.sol }}</mat-card-title>
                             <mat-card-subtitle>{{ roverPic.rover.name }}</mat-card-subtitle>
                         </mat-card-header>
-                        <img mat-card-image
-                             [src]="roverPic.img_src"
-                             alt="Mars Test Photo">
+                        <div class="dynamic">
+                            <img mat-card-image
+                                 [src]="roverPic.img_src"
+                                 alt="Mars Test Photo">
+                        </div>
                         <mat-card-content>
                         </mat-card-content>
                         <mat-card-actions class="my-3 d-flex justify-content-center align-content-center">
-                            <button class="card-btn me-2" mat-button>Check out more</button>
+                            <button class="card-btn me-2" mat-button (click)="showMore(roverPic)">Check out more</button>
                         </mat-card-actions>
                     </mat-card>
                 </div>

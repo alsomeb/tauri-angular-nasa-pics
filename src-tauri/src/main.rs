@@ -35,8 +35,7 @@ struct Rover {
 #[tauri::command]
 fn get_dt() -> String {
     let dt = Local::now();
-    let formatted_string = format!("{}", dt.format("%a %b %e %Y"));
-    formatted_string // last row automatically return in rust
+    format!("{}", dt.format("%a %b %e %Y"))
 }
 
 /*

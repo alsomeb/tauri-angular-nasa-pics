@@ -10,3 +10,8 @@
 .card-btn {
     color: white !important;
 }
+
+.dynamic {
+    aspect-ratio: 16/9;
+    overflow: hidden;
+}

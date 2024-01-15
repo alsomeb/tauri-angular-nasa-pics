@@ -47,6 +47,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     return  sevenDaysAgo.toISOString().split("T")[0];
   }
 
+  showMore(rover: RoverPic) {
+    console.log(rover);
+  }
+
   ngOnDestroy(): void {
   }
 }

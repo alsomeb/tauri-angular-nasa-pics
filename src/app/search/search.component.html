@@ -1,7 +1,8 @@
 <div class="container">
     <div class="my-5">
-            <div class="h4 text-center">NASA Rover Pictures by date <i class="fa-solid fa-earth-europe"></i></div>
+            <div class="h4 text-center">NASA Rover Pictures by date</div>
     </div>
+    <div>
         <form [formGroup]="searchForm" (ngSubmit)="handleSearch()" class="border border-secondary-subtle p-5 rounded shadow-sm">
             <div class="mb-3">
                 <label for="date" class="form-label fw-semibold">Desired Date</label>
@@ -11,4 +12,35 @@
                 <button type="submit" mat-raised-button>Search<i class="fa-solid fa-magnifying-glass ms-2"></i></button>
             </div>
         </form>
+    </div>
+
+    <div class="row pb-5" *ngIf="hasResult">
+        <div class="my-3">
+            <hr />
+        </div>
+        <!-- I used col-md-6 to make the columns stack horizontally on medium-sized screens and larger. -->
+        @for (roverPic of roverPics; track roverPic.id) {
+            <div class="col-md-4 mb-5">
+                <mat-card class="example-card">
+                    <mat-card-header>
+                        <div mat-card-avatar class="example-header-image"></div>
+                        <mat-card-title>Sol {{ roverPic.sol }}</mat-card-title>
+                        <mat-card-subtitle>{{ roverPic.rover.name }}</mat-card-subtitle>
+                    </mat-card-header>
+                    <div class="dynamic">
+                        <img mat-card-image
+                             [src]="roverPic.img_src"
+                             alt="Mars Test Photo">
+                    </div>
+                    <mat-card-content>
+                    </mat-card-content>
+                    <mat-card-actions class="my-3 d-flex justify-content-center align-content-center">
+                        <button class="card-btn me-2" mat-button (click)="showMore(roverPic)">Check out more</button>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+        } @empty {
+            <div class="fw-semibold">No pictures of this date.</div>
+        }
+    </div>
 </div>
