@@ -95,6 +95,7 @@ fn load_pic_by_date(date: String) -> Result<Vec<RoverPic>, String> {
 
     // Makes an HTTP GET request to the NASA API and converts any request error to a String if it occurs.
     // Uses a ref '&' to the Owned String 'url'
+    // Maps a Result<T, E> to Result<T, F> by applying a function to a contained Err value, leaving an Ok value untouched
     let response = reqwest::blocking::get(&url).map_err(|err| err.to_string())?;
 
 
