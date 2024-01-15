@@ -36,7 +36,6 @@ export class NasaRoverService {
       const data = await invoke('load_pic_by_date', {
         date: dateString,
       });
-
       // Assuming data is an array of RoverPic objects, cast them to RoverPic[]
       return data as RoverPic[];
     } catch (error) {

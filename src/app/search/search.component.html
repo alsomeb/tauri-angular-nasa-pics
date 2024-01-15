@@ -2,10 +2,13 @@
     <div class="my-5">
             <div class="h4 text-center">NASA Rover Pictures by date <i class="fa-solid fa-earth-europe"></i></div>
     </div>
-        <form class="border border-secondary-subtle p-5 rounded shadow-sm">
+        <form [formGroup]="searchForm" (ngSubmit)="handleSearch()" class="border border-secondary-subtle p-5 rounded shadow-sm">
             <div class="mb-3">
                 <label for="date" class="form-label fw-semibold">Desired Date</label>
-                <input type="date" id="date" class="form-control">
+                <input type="date" id="date" class="form-control border border-dark-subtle" formControlName="date">
+            </div>
+            <div class="mb-3" *ngIf="searchForm.valid">
+                <button type="submit" mat-raised-button>Search<i class="fa-solid fa-magnifying-glass ms-2"></i></button>
             </div>
         </form>
 </div>
