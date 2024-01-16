@@ -3600,6 +3600,8 @@ version = "0.0.0"
 dependencies = [
  "chrono",
  "dotenv",
+ "futures-util",
+ "once_cell",
  "reqwest",
  "serde",
  "serde_json",

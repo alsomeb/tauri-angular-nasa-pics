@@ -33,7 +33,7 @@ export class NasaRoverService {
 
   async getRoverPicturesByDate(dateString: string): Promise<RoverPic[]> {
     try {
-      const data = await invoke('load_pic_by_date', {
+      const data = await invoke('load_pic_by_date_async', {
         date: dateString,
       });
       // Assuming data is an array of RoverPic objects, cast them to RoverPic[]

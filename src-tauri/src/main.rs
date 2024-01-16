@@ -4,8 +4,20 @@
 use chrono::Local;
 use dotenv::dotenv;
 use serde::{Deserialize, Serialize};
+use once_cell::sync::Lazy;
+use reqwest::Client as ReqwestClient;
+
+// Lazy static HTTP Client
+/*
+    "once_cell" is used to ensure that the ReqwestClient is lazily initialized and created only once.
+    The Lazy::new function takes a closure that initializes the resource, and it is invoked only once when the resource is accessed for the first time.
+    The Lazy type ensures thread safety during initialization.
+
+ */
+static HTTP_CLIENT: Lazy<ReqwestClient> = Lazy::new(|| ReqwestClient::new());
 
 #[derive(Serialize, Deserialize, Debug)]
+// #[serde(rename_all = "camelCase")]
 struct RoverPic {
     id: u32,
     sol: u32,
@@ -15,13 +27,16 @@ struct RoverPic {
     rover: Rover,
 }
 
+
 #[derive(Serialize, Deserialize, Debug)]
+// #[serde(rename_all = "camelCase")]
 struct Camera {
     id: u32,
     full_name: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
+// #[serde(rename_all = "camelCase")]
 struct Rover {
     id: u32,
     name: String,
@@ -38,41 +53,60 @@ fn get_dt() -> String {
     format!("{}", dt.format("%a %b %e %Y"))
 }
 
-/*
-// test api for future ref
 #[tauri::command]
-fn get_products() -> Result<Vec<Product>, String> {
+async fn load_pic_by_date_async(date: String) -> Result<Vec<RoverPic>, String> {
+
+    if date.is_empty() {
+        return Err("Invalid date".to_string());
+    }
+
+    let api_key = std::env::var("NASA_API_KEY").unwrap_or_else(|_| "DEMO_KEY".to_string());
+
+    let url = format!(
+        "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date={}&api_key={}&page=1",
+        date, api_key
+    );
+
     /*
-        1. The ? operator is now used with map_err to convert the json() error into a String if it occurs.
-        2. The function will either return the successful result or an error.
+         - In Rust, the '?' operator is used for error propagation - propagate the error if there is one; otherwise, continue with the value.
+         - If used outside a function that returns Result or Option, the '?' operator cannot be used.
 
-        3. response.json(): This part of the code attempts to deserialize the HTTP response body into JSON. It's using the json method provided by
-           the Response type in reqwest. This method returns a Result where the Ok variant contains the deserialized JSON data.
+         - This would be equivalent if not used '?' -> if the Result is an Err, it will short-circuit the function and return early with the error.
 
-        4. map_err(|err| err.to_string()): The map_err method is used here to convert the potential error from JSON deserialization into a String.
-           This is necessary because the error type from JSON deserialization might not implement ToString.
-           This part ensures that if an error occurs during deserialization, it will be transformed into a String error.
+            let result = match http_client.get(&url).send() {
+                Ok(value) => value,
+                Err(err) => return Err(err.to_string()),
+            };
 
-        5. The entire expression response.json().map_err(|err| err.to_string()) is wrapped in Ok(...) to ensure that if it succeeds,
-           the deserialized JSON data is wrapped in the Ok variant of a Result.
-
-        6. The ? operator is used at the end to propagate any errors that occurred during the JSON deserialization.
-           If an error occurs, the function will immediately return Err with the converted error message.
-
-     */
-
-    let resp: Vec<Product> = match reqwest::blocking::get("https://fakestoreapi.com/products") {
-        // If response.json() is successful, it returns Ok(deserialized_data).
-        Ok(response) => response.json().map_err(|err| err.to_string())?,
-
-        // If an error occurs during JSON deserialization, it transforms the error into a String using map_err(|err| err.to_string()).
-        Err(err) => return Err(err.to_string()),
-    };
-
-    Ok(resp)
-}
+         - The await keyword is used to await the completion of the asynchronous future returned by http_client.get(&url).send().
+         - Once the future is resolved, the map_err function is applied to handle the conversion of potential errors.
 
  */
+    let result = HTTP_CLIENT.get(&url).send().await.map_err(|err| err.to_string())?; // reuse lazy static HTTP CLIENT -> Not creating a new one with each Request
+
+
+    // Check if the response status is OK (200) or else Return Error msg
+    if result.status() != reqwest::StatusCode::OK {
+        return Err(format!("Request failed with status code: {}", result.status()));
+    }
+
+    // Deserialize JSON Response
+    let json_result: serde_json::Value = result.json().await.map_err(|err| err.to_string())?;
+
+    // Check if the "photos" array exists in the JSON response
+    let photos_array = json_result.get("photos").ok_or("Missing 'photos' array in the response")?
+        .as_array()
+        .cloned() // för att få den till Owned ist lånad Option Vec
+        .unwrap_or_default(); // För att få bort Option och bli Vec<Value>
+
+    // Convert to Vec<RoverPic>
+    // filter_map() behöver Option, då den mappar och filtrerar bort None's, samt from_value() -> Result som vi kan konvertera till en Option med ok()
+    let rover_pics = photos_array.iter()
+        .filter_map(|rover_pic| serde_json::from_value(rover_pic.clone()).ok())
+        .collect();
+
+    Ok(rover_pics)
+}
 
 // Load pictures taken by the Curiosity rover on a specific date
 // This function takes a date parameter as input and returns a Result with either a vector of RoverPic instances or a String representing an error.
@@ -149,7 +183,7 @@ fn main() {
     dotenv().expect("Should contain .env file in src-tauri folder");
 
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![get_dt, load_pic_by_date])
+        .invoke_handler(tauri::generate_handler![get_dt, load_pic_by_date, load_pic_by_date_async])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
