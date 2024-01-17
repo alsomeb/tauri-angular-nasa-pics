@@ -29,7 +29,14 @@ export type Rover = {
   providedIn: 'root'
 })
 export class NasaRoverService {
-  private currentSelectedRoverPic: BehaviorSubject<RoverPic | undefined> = new BehaviorSubject<RoverPic | undefined>(undefined);
+  private currentSelectedRoverPic: BehaviorSubject<RoverPic> = new BehaviorSubject<RoverPic>({
+    id: 0,
+    sol: 0,
+    camera: { id: 0, full_name: '' },
+    img_src: '',
+    earth_date: '',
+    rover: { id: 0, name: '', landing_date: '', launch_date: '', status: '', total_photos: 0 }
+  });
 
   constructor() { }
 
