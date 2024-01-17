@@ -4,6 +4,7 @@ import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
 import {NgOptimizedImage} from "@angular/common";
 import {RouterLink, RouterLinkActive} from "@angular/router";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-dashboard',
@@ -15,10 +16,15 @@ import {RouterLink, RouterLinkActive} from "@angular/router";
 export class DashboardComponent implements OnInit, OnDestroy {
   roverPics: RoverPic[] = []
   isLoading: boolean = true;
+  currentSelectedRoverPic!: RoverPic | undefined;
+  currentSelectedRoverPicSub!: Subscription;
 
   ngOnInit(): void {
     this.roverPics = [];
     this.fetchSamplePictures();
+    this.currentSelectedRoverPicSub = this.roverService.getCurrentSelectedRoverPic().subscribe((roverPic) => {
+      this.currentSelectedRoverPic = roverPic;
+    })
   }
 
   constructor(private roverService: NasaRoverService) {
@@ -48,9 +54,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   showMore(rover: RoverPic) {
-    console.log(rover);
+    //console.log(rover);
+    this.roverService.setCurrentSelectedRoverPic(rover);
   }
 
   ngOnDestroy(): void {
+    this.currentSelectedRoverPicSub.unsubscribe();
   }
 }

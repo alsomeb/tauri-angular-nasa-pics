@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {invoke} from "@tauri-apps/api";
+import {BehaviorSubject} from "rxjs";
 
 export type RoverPic = {
   id: number,
@@ -28,8 +29,17 @@ export type Rover = {
   providedIn: 'root'
 })
 export class NasaRoverService {
+  private currentSelectedRoverPic: BehaviorSubject<RoverPic | undefined> = new BehaviorSubject<RoverPic | undefined>(undefined);
 
   constructor() { }
+
+  getCurrentSelectedRoverPic() {
+    return this.currentSelectedRoverPic.asObservable();
+  }
+
+  setCurrentSelectedRoverPic(roverPic: RoverPic) {
+    this.currentSelectedRoverPic.next(roverPic);
+  }
 
   async getRoverPicturesByDate(dateString: string): Promise<RoverPic[]> {
     try {
