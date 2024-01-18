@@ -2,14 +2,14 @@ import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {NasaRoverService, RoverPic} from "../service/nasa-rover.service";
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
-import {NgIf, NgOptimizedImage} from "@angular/common";
+import {NgIf, NgOptimizedImage, NgStyle} from "@angular/common";
 import {RouterLink, RouterLinkActive} from "@angular/router";
 import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule, NgOptimizedImage, RouterLinkActive, RouterLink, NgIf],
+  imports: [MatCardModule, MatButtonModule, NgOptimizedImage, RouterLinkActive, RouterLink, NgIf, NgStyle],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -23,7 +23,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.roverPics = [];
     this.fetchSamplePictures();
     this.currentSelectedRoverPicSub = this.roverService.getCurrentSelectedRoverPic().subscribe((roverPic) => {
-      console.log('Received roverPic:', roverPic);
       this.currentSelectedRoverPic = roverPic;
     })
   }

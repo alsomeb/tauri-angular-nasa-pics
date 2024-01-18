@@ -46,9 +46,9 @@
     <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
+                <div class="modal-content p-2">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">{{ currentSelectedRoverPic.rover.name }}</h1>
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">{{ currentSelectedRoverPic.rover.name }} - {{ currentSelectedRoverPic.camera.full_name }}</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body mt-2">
@@ -58,9 +58,11 @@
                                  alt="Mars Photo">
                         </div>
                         <div class="my-4">
-                            <p><strong>Landing Date:</strong> {{ currentSelectedRoverPic.rover.landing_date }}</p>
+                            <p><strong>Picture from earth date: </strong> {{ currentSelectedRoverPic.earth_date }}</p>
+                            <p><strong>Status: </strong> <span [ngStyle]="{'color': currentSelectedRoverPic.rover.status ? 'green' : 'red'}">{{ currentSelectedRoverPic.rover.status }}</span></p>
+                            <p><strong>Total pictures taken: </strong> {{ currentSelectedRoverPic.rover.total_photos }}</p>
                             <p><strong>Launch Date:</strong> {{ currentSelectedRoverPic.rover.launch_date }}</p>
-                            <p><strong>Status:</strong> {{ currentSelectedRoverPic.rover.status }}</p>
+                            <p><strong>Landing Date:</strong> {{ currentSelectedRoverPic.rover.landing_date }}</p>
                             <!-- Add more details as needed -->
                         </div>
                     </div>
