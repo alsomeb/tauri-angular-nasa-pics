@@ -6,6 +6,7 @@ import {NgClass, NgIf, NgStyle} from "@angular/common";
 import {NasaRoverService, RoverPic} from "../service/nasa-rover.service";
 import {NgxSpinnerService} from "ngx-spinner";
 import {MatCardModule} from "@angular/material/card";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-search',
@@ -18,6 +19,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   roverPics: RoverPic[] = []
   searchForm!: FormGroup;
   hasResult: boolean = false;
+  currentSelectedRoverPic!: RoverPic;
+  currentSelectedRoverPicSub!: Subscription;
 
   constructor(private fb: FormBuilder, private roverService: NasaRoverService, private spinner: NgxSpinnerService, private ngZone: NgZone) {
   }
@@ -27,9 +30,14 @@ export class SearchComponent implements OnInit, OnDestroy {
       date: [this.currentDate(), [Validators.required, Validators.pattern(/^(19|20)\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/),
       ]],
     })
+
+    this.currentSelectedRoverPicSub = this.roverService.getCurrentSelectedRoverPic().subscribe((roverPic) => {
+      this.currentSelectedRoverPic = roverPic;
+    })
   }
 
   ngOnDestroy(): void {
+    this.currentSelectedRoverPicSub.unsubscribe();
   }
 
   currentDate() {
@@ -66,7 +74,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   showMore(rover: RoverPic) {
-    console.log(rover);
+    this.roverService.setCurrentSelectedRoverPic(rover);
   }
 
 }

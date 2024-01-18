@@ -11,6 +11,10 @@ button {
     background-size: cover;
 }
 
+.card-btn {
+    color: white !important;
+}
+
 .dynamic {
     aspect-ratio: 4/3;
     overflow: hidden;

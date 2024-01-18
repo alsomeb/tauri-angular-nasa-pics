@@ -54,7 +54,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   showMore(rover: RoverPic) {
-    //console.log(rover);
     this.roverService.setCurrentSelectedRoverPic(rover);
   }
 
