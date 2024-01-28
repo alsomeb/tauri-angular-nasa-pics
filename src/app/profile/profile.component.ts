@@ -23,15 +23,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   getLastSignedIn() {
-    return this.convertStringToDate(this.currentUser.last_sign_in_at!);
+    return this.convertStringToDate(this.currentUser.last_sign_in_at ?? "-"); // om undefined så står det bara '-'
   }
 
   getAccountCreated() {
-    return this.convertStringToDate(this.currentUser.created_at!);
+    return this.convertStringToDate(this.currentUser.created_at ?? "-");
   }
 
   private convertStringToDate(dateString: string) {
-    const isoDate = new Date(dateString!);
+    const isoDate = new Date(dateString);
     return `${isoDate.toLocaleDateString()} ${isoDate.toLocaleTimeString([], {
       hour: '2-digit',
       minute: '2-digit',
