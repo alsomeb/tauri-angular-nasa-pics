@@ -1,10 +1,11 @@
-import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NasaRoverService, RoverPic} from "../service/nasa-rover.service";
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
 import {NgIf, NgOptimizedImage, NgStyle} from "@angular/common";
 import {RouterLink, RouterLinkActive} from "@angular/router";
 import {Subscription} from "rxjs";
+import {open} from "@tauri-apps/api/shell";
 
 @Component({
   selector: 'app-dashboard',
@@ -55,6 +56,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   showMore(rover: RoverPic) {
     this.roverService.setCurrentSelectedRoverPic(rover);
+  }
+
+  async showImageInSystemDefaultBrowser(imageUrl: string) {
+    // opens the given URL on the default browser:
+    await open(imageUrl);
   }
 
   ngOnDestroy(): void {

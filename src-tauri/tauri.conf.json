@@ -18,6 +18,15 @@
       },
       "notification": {
         "all": true
+      },
+      "dialog": {
+        "save": true
+      },
+      "fs": {
+        "all": true
+      },
+      "path": {
+        "all": true
       }
     },
     "bundle": {
