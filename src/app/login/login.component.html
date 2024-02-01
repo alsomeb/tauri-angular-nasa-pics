@@ -12,7 +12,7 @@
                 <p class="fw-semibold" *ngIf="loginForm.controls['password'].invalid && (loginForm.controls['password'].touched || loginForm.controls['password'].dirty)">Password is required</p>
                 <input type="password" placeholder="Enter password" class="form-control border border-dark-subtle" id="password" formControlName="password">
             </div>
-            <button type="submit" class="btn btn-primary my-3">Submit</button>
+            <button type="submit" mat-raised-button class="my-3">Submit</button>
             <span *ngIf="loginForm.valid" id="checkmark" class="ps-3"><i class="fa-solid fa-check"></i></span>
             <div id="registerHelp" class="form-text my-3">Dont have an account? <a class="link-dark" routerLink="/register">Register</a></div>
         </form>

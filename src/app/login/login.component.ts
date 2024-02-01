@@ -6,6 +6,7 @@ import {SupaAuthService} from "../service/supa-auth.service";
 import {sweetAlertError} from "../alerts/alerts";
 import {NgIf} from "@angular/common";
 import {Subscription} from "rxjs";
+import {MatButtonModule} from "@angular/material/button";
 
 type LoginUser = {
     email: string,
@@ -18,7 +19,8 @@ type LoginUser = {
     imports: [
         ReactiveFormsModule,
         RouterLink,
-        NgIf
+        NgIf,
+        MatButtonModule
     ],
     templateUrl: './login.component.html',
     styleUrl: './login.component.css'

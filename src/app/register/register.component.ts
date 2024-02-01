@@ -5,6 +5,7 @@ import {NgIf} from "@angular/common";
 import {SupaAuthService} from "../service/supa-auth.service";
 import {NgxSpinnerService} from "ngx-spinner";
 import {sweetAlertError, sweetAlertSuccess} from "../alerts/alerts";
+import {MatButtonModule} from "@angular/material/button";
 
 type RegisterUser = {
     email: string,
@@ -18,7 +19,8 @@ type RegisterUser = {
         FormsModule,
         ReactiveFormsModule,
         RouterLink,
-        NgIf
+        NgIf,
+        MatButtonModule
     ],
     templateUrl: './register.component.html',
     styleUrl: './register.component.css'
