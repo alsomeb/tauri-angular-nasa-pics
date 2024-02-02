@@ -1,4 +1,15 @@
-use crate::{HTTP_CLIENT, RoverPic};
+use once_cell::sync::Lazy;
+use crate::{RoverPic};
+use reqwest::Client as ReqwestClient;
+
+// Lazy static HTTP Client
+/*
+    "once_cell" is used to ensure that the ReqwestClient is lazily initialized and created only once.
+    The Lazy::new function takes a closure that initializes the resource, and it is invoked only once when the resource is accessed for the first time.
+    The Lazy type ensures thread safety during initialization.
+
+ */
+static HTTP_CLIENT: Lazy<ReqwestClient> = Lazy::new(|| ReqwestClient::new()); // A static item is a value which is valid for the entire duration of your program (a 'static lifetime)
 
 #[tauri::command]
 pub async fn load_pic_by_date_async(date: String) -> Result<Vec<RoverPic>, String> {
