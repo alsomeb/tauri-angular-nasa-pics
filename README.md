@@ -6,4 +6,5 @@
 - Watch specific Rover Picture in System Default Web Browser
 - Tauri Notifications
 - Supabase Auth (Opensource Firebase alternative)
+- Tauri Backend uses async features from Tokio and MongoDB, etc..
 - Under development
