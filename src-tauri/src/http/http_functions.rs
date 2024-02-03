@@ -1,6 +1,7 @@
 use once_cell::sync::Lazy;
 use crate::{RoverPic};
 use reqwest::Client as ReqwestClient;
+use serde_json::Value;
 
 // Lazy static HTTP Client
 /*
@@ -49,7 +50,8 @@ pub async fn load_pic_by_date_async(date: String) -> Result<Vec<RoverPic>, Strin
     }
 
     // Deserialize JSON Response
-    let json_result: serde_json::Value = result.json().await.map_err(|err| err.to_string())?;
+    // Value == Represents any valid JSON value.
+    let json_result: Value = result.json().await.map_err(|err| err.to_string())?;
 
     // Check if the "photos" array exists in the JSON response
     let photos_array = json_result.get("photos").ok_or("Missing 'photos' array in the response")?
