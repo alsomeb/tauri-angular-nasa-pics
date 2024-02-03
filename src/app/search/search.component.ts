@@ -63,7 +63,6 @@ export class SearchComponent implements OnInit, OnDestroy {
      this.ngZone.run(() => {
        // Reset
        this.hasResult = false;
-       this.roverPics = [];
 
        // Fetch date from reactive form
        const date = this.searchForm.get("date")?.value
