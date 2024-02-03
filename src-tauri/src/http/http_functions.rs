@@ -1,7 +1,7 @@
 use once_cell::sync::Lazy;
 use crate::{RoverPic};
 use reqwest::Client as ReqwestClient;
-use serde_json::Value;
+use serde_json::{from_value, Value};
 
 // Lazy static HTTP Client
 /*
@@ -63,7 +63,7 @@ pub async fn load_pic_by_date_async(date: String) -> Result<Vec<RoverPic>, Strin
     // Convert to Vec<RoverPic>
     // filter_map() behöver Option, då den mappar och filtrerar bort None's, samt from_value() -> Result som vi kan konvertera till en Option med ok()
     let rover_pics = photos_array.iter()
-        .filter_map(|rover_pic| serde_json::from_value(rover_pic.clone()).ok())
+        .filter_map(|rover_pic| from_value(rover_pic.clone()).ok()) // Konvertera JSON till RoverPic, hover metod för mer info
         .collect();
 
     Ok(rover_pics)
