@@ -36,3 +36,20 @@ async fn main() {
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
+
+/*
+// TODO Handler func to test get_all_users for mongo
+
+#[tauri::command]
+async fn get_dt(state: State<'_, MongoRepository>) {
+    // Access the managed MongoDB instance
+    let mongo_db = state.inner();
+
+    // Use the MongoDB instance as needed
+    // ...
+
+    // Example: Print a message
+    println!("MongoDB initialized successfully.");
+}
+
+ */
