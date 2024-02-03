@@ -33,10 +33,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   async fetchSamplePictures() {
-    const weekAgo = this.getDateAWeekAgo();
+    const monthAgo = this.getDateInPast(25);
 
     try {
-       this.roverPics = await this.roverService.getRoverPicturesByDate(weekAgo);
+       this.roverPics = await this.roverService.getRoverPicturesByDate(monthAgo);
        this.isLoading = false;
     } catch (error) {
       this.isLoading = false;
@@ -44,15 +44,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  getDateAWeekAgo(): string {
+  getDateInPast(amountDaysDeduct: number): string {
     // Get the current date
     const currentDate = new Date();
 
-    // Subtract 7 days
-    const sevenDaysAgo = new Date(currentDate);
-    sevenDaysAgo.setDate(currentDate.getDate() - 25);
+    // Subtract X Days to collect desired Date in past
+    const date = new Date(currentDate);
+    date.setDate(currentDate.getDate() - amountDaysDeduct);
 
-    return  sevenDaysAgo.toISOString().split("T")[0];
+    return date.toISOString().split("T")[0];
   }
 
   showMore(rover: RoverPic) {
