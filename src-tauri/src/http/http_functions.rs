@@ -54,6 +54,7 @@ pub async fn load_pic_by_date_async(date: String) -> Result<Vec<RoverPic>, Strin
     let json_result: Value = result.json().await.map_err(|err| err.to_string())?;
 
     // Check if the "photos" array exists in the JSON response
+    // .get() == A string index (key) can be used to access a value in a map, and a usize index can be used to access an element of an array.
     let photos_array = json_result.get("photos").ok_or("Missing 'photos' array in the response")?
         .as_array()
         .cloned() // för att få den till Owned ist lånad Option Vec
