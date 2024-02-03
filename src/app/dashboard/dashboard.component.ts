@@ -22,7 +22,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   currentSelectedRoverPicSub!: Subscription;
 
   ngOnInit(): void {
-    this.roverPics = [];
     this.fetchSamplePictures();
     this.currentSelectedRoverPicSub = this.roverService.getCurrentSelectedRoverPic().subscribe((roverPic) => {
       this.currentSelectedRoverPic = roverPic;
