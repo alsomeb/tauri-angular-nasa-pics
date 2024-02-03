@@ -6,11 +6,12 @@ import {NgIf, NgOptimizedImage, NgStyle} from "@angular/common";
 import {RouterLink, RouterLinkActive} from "@angular/router";
 import {Subscription} from "rxjs";
 import {open} from "@tauri-apps/api/shell";
+import {NgxSkeletonLoaderModule} from "ngx-skeleton-loader";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule, NgOptimizedImage, RouterLinkActive, RouterLink, NgIf, NgStyle],
+  imports: [MatCardModule, MatButtonModule, NgOptimizedImage, RouterLinkActive, RouterLink, NgIf, NgStyle, NgxSkeletonLoaderModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -49,7 +50,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     // Subtract 7 days
     const sevenDaysAgo = new Date(currentDate);
-    sevenDaysAgo.setDate(currentDate.getDate() - 7);
+    sevenDaysAgo.setDate(currentDate.getDate() - 25);
 
     return  sevenDaysAgo.toISOString().split("T")[0];
   }
