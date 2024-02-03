@@ -10,7 +10,6 @@ pub struct RoverPic {
     rover: Rover,
 }
 
-
 #[derive(Serialize, Deserialize, Debug)]
 // #[serde(rename_all = "camelCase")]
 pub struct Camera {
