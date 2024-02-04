@@ -29,6 +29,7 @@ export type Rover = {
   providedIn: 'root'
 })
 export class NasaRoverService {
+  // Vi sätter ett default object, men det kommer inte användas, hellre detta än null
   private currentSelectedRoverPic: BehaviorSubject<RoverPic> = new BehaviorSubject<RoverPic>({
     id: 0,
     sol: 0,

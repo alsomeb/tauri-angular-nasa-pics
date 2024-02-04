@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SupaAuthService} from "../service/supa-auth.service";
 import {Subscription} from "rxjs";
 import {User} from "@supabase/supabase-js";
+import {MongoService} from "../service/mongo.service";
 
 @Component({
   selector: 'app-profile',
@@ -14,7 +15,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   currentUserSub!: Subscription;
   currentUser!: User;
 
-  constructor(private authService: SupaAuthService) {
+  constructor(private authService: SupaAuthService, private mongoService: MongoService) {
   }
 
   ngOnInit(): void {
@@ -43,4 +44,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.currentUserSub.unsubscribe();
   }
 
+  async testMongoDB() {
+    try {
+      await this.mongoService.fetchAllUsers();
+    } catch (e) {
+      console.log(e)
+    }
+  }
 }

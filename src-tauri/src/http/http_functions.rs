@@ -41,7 +41,11 @@ pub async fn load_pic_by_date_async(date: String) -> Result<Vec<RoverPic>, Strin
          - Once the future is resolved, the map_err function is applied to handle the conversion of potential errors.
 
  */
-    let result = HTTP_CLIENT.get(&url).send().await.map_err(|err| err.to_string())?; // reuse lazy static HTTP CLIENT -> Not creating a new one with each Request
+    let result = HTTP_CLIENT
+        .get(&url)
+        .send()
+        .await
+        .map_err(|err| err.to_string())?; // reuse lazy static HTTP CLIENT -> Not creating a new one with each Request
 
 
     // Check if the response status is OK (200) or else Return Error msg
