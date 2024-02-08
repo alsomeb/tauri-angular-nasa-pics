@@ -31,19 +31,25 @@
                 </div>
             } @empty {
                 @if (isLoading) {
-                    <div class="skeleton-loader-container my-5">
+                    <div class="row text-center mt-5">
                         <ngx-skeleton-loader
-                                count="6"
+                                count="3"
                                 appearance="circle"
-                                [theme]="
-                                   {
-                                    'border-radius': '5px',
-                                    'height': '395px',
-                                    'width': '395px',
-                                    'border': '1px solid #C7C8CC',
-                                    'box-shadow': 'rgba(0, 0, 0, 0.08) 0px 4px 12px'
-                                   }"
-                        />
+                                [theme]="{
+                                          'width': '250px',
+                                          'height': '250px',
+                                          'border-radius': '10px'
+                                        }">
+                        </ngx-skeleton-loader>
+                        <ngx-skeleton-loader
+                                count="3"
+                                appearance="circle"
+                                [theme]="{
+                                          'width': '250px',
+                                          'height': '250px',
+                                          'border-radius': '10px'
+                                        }">
+                        </ngx-skeleton-loader>
                     </div>
                 } @else {
                     <hr />
