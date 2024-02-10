@@ -11,6 +11,7 @@ use serde_json::{from_value, Value};
 
  */
 static HTTP_CLIENT: Lazy<ReqwestClient> = Lazy::new(|| ReqwestClient::new()); // A static item is a value which is valid for the entire duration of your program (a 'static lifetime)
+static API_CONFIG: Lazy<NasaApiConfig> = Lazy::new(|| NasaApiConfig::new());
 
 struct NasaApiConfig {
     base_url: String,
@@ -68,8 +69,7 @@ pub async fn load_pic_by_date_async(date: String) -> Result<Vec<RoverPic>, Strin
         return Err("Invalid date".to_string());
     }
 
-    let api_config = NasaApiConfig::new();
-    let url_by_date = api_config.construct_url_by_date(&date);
+    let url_by_date = API_CONFIG.construct_url_by_date(&date);
 
     /*
          - In Rust, the '?' operator is used for error propagation - propagate the error if there is one; otherwise, continue with the value.
