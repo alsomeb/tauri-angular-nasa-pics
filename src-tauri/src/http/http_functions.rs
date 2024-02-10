@@ -51,7 +51,6 @@ pub async fn download_image(img_url: String) -> Result<Vec<u8>, String> {
     }
 
     // Read Response
-
     let img_bytes = result
         .bytes()
         .await

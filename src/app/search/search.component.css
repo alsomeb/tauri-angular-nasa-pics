@@ -8,6 +8,12 @@
 }
 
 .dynamic {
-    aspect-ratio: 4/3;
+    aspect-ratio: 16/9;
     overflow: hidden;
+}
+
+.dynamic img {
+    max-width: 100%; /* Adjust the width as necessary */
+    max-height: 100%; /* Adjust the height as necessary */
+    object-fit: contain; /* This will ensure the entire image is visible, adding whitespace if necessary to maintain the aspect ratio */
 }

@@ -81,4 +81,32 @@ export class SearchComponent implements OnInit, OnDestroy {
     // opens the given URL on the default browser:
     await open(imageUrl);
   }
+
+  /* Funkade ej men kan va värdefullt att ha i framtiden
+  async downloadImage(dataUrl: string) {
+    const suggestedFilename = `mars_image_${this.currentSelectedRoverPic.id}.png`;
+
+    // Returns the path to the user's download directory, OS Specific
+    const downloadsDir = await downloadDir();
+
+    // Save into the default downloads directory, like in the browser
+    const filePath = await save({
+      defaultPath: downloadsDir + "/" + suggestedFilename,
+    });
+
+    // Check if filePath exist (if not user canceled save dialog)
+    if(filePath) {
+      // Now we can write the file to the disk
+      const img = await fetch(dataUrl)
+          .then((res) => res.blob());
+
+
+      // Convert Blob to Uint8Array
+      const arrayBuffer = await new Response(img).arrayBuffer();
+      const uint8Array = new Uint8Array(arrayBuffer);
+
+      await writeBinaryFile(filePath, uint8Array);
+    }
+  }
+   */
 }
