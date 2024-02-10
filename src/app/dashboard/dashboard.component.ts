@@ -79,3 +79,5 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.currentSelectedRoverPicSub.unsubscribe();
   }
 }
+
+// TODO ÖKA FONT STORLEK OCH CENTRERA

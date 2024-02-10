@@ -24,3 +24,5 @@ export function sweetAlertError(title: string, text: string) {
         icon: "error",
     });
 }
+
+// TODO KOLLA OM ALERT KAN FÖRSVINNA EFTER X ANTAL SEKUNDER MER SOM EN SNABB POPUP MED INFO
