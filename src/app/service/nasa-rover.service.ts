@@ -1,6 +1,11 @@
 import {Injectable} from '@angular/core';
 import {invoke} from "@tauri-apps/api";
 import {BehaviorSubject} from "rxjs";
+import {downloadDir} from "@tauri-apps/api/path";
+import {save} from "@tauri-apps/api/dialog";
+import {writeBinaryFile} from "@tauri-apps/api/fs";
+import {NgxSpinnerService} from "ngx-spinner";
+import {sweetAlertSuccess, sweetAlertError} from "../alerts/alerts";
 
 export type RoverPic = {
   id: number,
@@ -39,7 +44,7 @@ export class NasaRoverService {
     rover: { id: 0, name: '', landing_date: '', launch_date: '', status: '', total_photos: 0 }
   });
 
-  constructor() { }
+  constructor(private spinnerService: NgxSpinnerService) { }
 
   getCurrentSelectedRoverPic() {
     return this.currentSelectedRoverPic.asObservable();
@@ -61,14 +66,85 @@ export class NasaRoverService {
     }
   }
 
-  async downloadImage(imgUrl: string) {
+  async downloadImage(rover: RoverPic) {
     try {
-      const data = await invoke('download_image', {
-        imgUrl: imgUrl,
-      });
-      console.log(data);
+      const byteArray = await this.fetchImageAndConvertToJPG(rover.img_src);
+      await this.saveFileUserPrompt(byteArray, rover.id);
+
+      sweetAlertSuccess("Image saved", `Enjoy the Image from the ${rover.rover.name} Rover`)
     } catch (error) {
+      sweetAlertError("Image not saved", "There was an error saving the image, try again or another image")
       throw error;
     }
   }
+
+  private async saveFileUserPrompt(byteArray: Uint8Array, roverID: number) {
+    const suggestedFilename = `mars_image_${roverID}.jpg`;
+
+    // Returns the path to the user's download directory, OS Specific
+    const downloadsDir = await downloadDir();
+
+    // Save into the downloads directory by default
+    const filePath = await save({
+      defaultPath: `${downloadsDir}/${suggestedFilename}`,
+      filters: [{
+        name: "jpg", // Filter name
+        extensions: ["jpg"] // Save as .jpg extension
+      }]
+    });
+
+    // Check if filePath exist, if not user canceled save dialog and no save takes place
+    if(filePath) {
+      await writeBinaryFile(filePath, byteArray);
+    }
+  }
+
+  private async fetchImageAndConvertToJPG(imgUrl: string) {
+    try {
+      this.spinnerService.show();
+
+      // Invoke the Rust command and await the byte array response
+      const byteArray: number[] = await invoke('download_image', {
+        imgUrl: imgUrl,
+      });
+
+      // Convert the returned byte array from rust backend to a Uint8Array
+      return new Uint8Array(byteArray);
+    } catch (error) {
+      throw error;
+    } finally {
+      this.spinnerService.hide();
+    }
+  }
+
+
+
+  /* Funkade ej men kan va värdefullt att ha i framtiden
+async downloadImage(dataUrl: string) {
+  const suggestedFilename = `mars_image_${this.currentSelectedRoverPic.id}.png`;
+
+  // Returns the path to the user's download directory, OS Specific
+  const downloadsDir = await downloadDir();
+
+  // Save into the default downloads directory, like in the browser
+  const filePath = await save({
+    defaultPath: downloadsDir + "/" + suggestedFilename,
+  });
+
+  // Check if filePath exist (if not user canceled save dialog)
+  if(filePath) {
+    // Now we can write the file to the disk
+    const img = await fetch(dataUrl)
+        .then((res) => res.blob());
+
+
+    // Convert Blob to Uint8Array
+    const arrayBuffer = await new Response(img).arrayBuffer();
+    const uint8Array = new Uint8Array(arrayBuffer);
+
+    await writeBinaryFile(filePath, uint8Array);
+  }
+}
+ */
+
 }

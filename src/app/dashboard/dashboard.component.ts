@@ -67,11 +67,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  async downloadImage(dataUrl: string) {
+  async downloadImage() {
     try {
-      await this.roverService.downloadImage(dataUrl);
+      await this.roverService.downloadImage(this.currentSelectedRoverPic);
     } catch (error) {
-      console.error(`Failed to download image by the URL '${dataUrl}'`, error);
+      console.error(`Failed to download image'`, error);
     }
   }
 
