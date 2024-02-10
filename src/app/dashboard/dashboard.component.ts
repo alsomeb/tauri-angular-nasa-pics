@@ -59,8 +59,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   async showImageInSystemDefaultBrowser(imageUrl: string) {
-    // opens the given URL on the default browser:
-    await open(imageUrl);
+    try {
+      // opens the given URL on the default browser:
+      await open(imageUrl);
+    } catch (error) {
+      console.error(`Failed to open the URL '${imageUrl}' in the default browser.`, error);
+    }
+  }
+
+  async downloadImage(dataUrl: string) {
+    try {
+      await this.roverService.downloadImage(dataUrl);
+    } catch (error) {
+      console.error(`Failed to download image by the URL '${dataUrl}'`, error);
+    }
   }
 
   ngOnDestroy(): void {

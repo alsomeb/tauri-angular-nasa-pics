@@ -57,7 +57,17 @@ export class NasaRoverService {
       // Assuming data is an array of RoverPic objects, cast them to RoverPic[]
       return data as RoverPic[];
     } catch (error) {
-      console.error(error);
+      throw error;
+    }
+  }
+
+  async downloadImage(imgUrl: string) {
+    try {
+      const data = await invoke('download_image', {
+        imgUrl: imgUrl,
+      });
+      console.log(data);
+    } catch (error) {
       throw error;
     }
   }

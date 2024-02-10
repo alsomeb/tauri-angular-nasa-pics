@@ -12,19 +12,64 @@ use serde_json::{from_value, Value};
  */
 static HTTP_CLIENT: Lazy<ReqwestClient> = Lazy::new(|| ReqwestClient::new()); // A static item is a value which is valid for the entire duration of your program (a 'static lifetime)
 
+struct NasaApiConfig {
+    base_url: String,
+    api_key: String
+}
+
+impl NasaApiConfig {
+    // Function to create a new ApiConfig instance
+    fn new() -> Self {
+        let api_key = std::env::var("NASA_API_KEY").unwrap_or_else(|_| "DEMO_KEY".to_string());
+        let base_url = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos".to_string();
+        Self { base_url, api_key }
+    }
+
+    // Method to construct the URL for fetching photos by date
+    fn construct_url_by_date(&self, date: &str) -> String {
+        format!("{}?earth_date={}&api_key={}&page=1", self.base_url, date, self.api_key)
+    }
+
+    // Add more methods for other types of URLs if necessary
+}
+
+#[tauri::command]
+pub async fn download_image(img_url: String) -> Result<Vec<u8>, String> {
+    if img_url.trim().is_empty() {
+        return Err("Invalid img_url".to_string())
+    }
+
+    let result = HTTP_CLIENT.get(&img_url)
+        .send()
+        .await
+        .map_err(|err| err.to_string())?;
+
+    // Check if the response status is OK (200) or else Return Error msg
+    if result.status() != reqwest::StatusCode::OK {
+        return Err(format!("Request failed with status code: {}", result.status()));
+    }
+
+    // Read Response
+
+    let img_bytes = result
+        .bytes()
+        .await
+        .map_err(|_| "Failed to convert image to byte array".to_string())?;
+
+    let byte_array = img_bytes.to_vec(); // new Uint8Array(response) behövs i Front end så u8
+
+    Ok(byte_array)
+}
+
 #[tauri::command]
 pub async fn load_pic_by_date_async(date: String) -> Result<Vec<RoverPic>, String> {
 
-    if date.is_empty() {
+    if date.trim().is_empty() {
         return Err("Invalid date".to_string());
     }
 
-    let api_key = std::env::var("NASA_API_KEY").unwrap_or_else(|_| "DEMO_KEY".to_string());
-
-    let url = format!(
-        "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date={}&api_key={}&page=1",
-        date, api_key
-    );
+    let api_config = NasaApiConfig::new();
+    let url_by_date = api_config.construct_url_by_date(&date);
 
     /*
          - In Rust, the '?' operator is used for error propagation - propagate the error if there is one; otherwise, continue with the value.
@@ -42,7 +87,7 @@ pub async fn load_pic_by_date_async(date: String) -> Result<Vec<RoverPic>, Strin
 
  */
     let result = HTTP_CLIENT
-        .get(&url)
+        .get(&url_by_date)
         .send()
         .await
         .map_err(|err| err.to_string())?; // reuse lazy static HTTP CLIENT -> Not creating a new one with each Request
