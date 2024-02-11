@@ -1,9 +1,9 @@
 <div class="container">
     @if (!isLoading) {
     <div class="h2 text-center my-5">Dashboard</div>
-        <div>
-            <p class="fw-semibold h5">Pictures from Mars, last month.</p>
-            <p class="mb-4">Want more? <a class="link-dark" routerLink="/search"><strong>Search</strong></a> a specific date</p>
+        <div class="text-center mb-5">
+            <p class="fw-semibold h3">Pictures from Mars, last month.</p>
+            <p class="mb-4 fs-4">Want more? <a class="link-dark" routerLink="/search"><strong>Search</strong></a> a specific date</p>
         </div>
     }
     <div>
@@ -25,7 +25,7 @@
                         <mat-card-content>
                         </mat-card-content>
                         <mat-card-actions class="my-3 d-flex justify-content-center align-content-center">
-                            <button mat-raised-button class="me-2" mat-button (click)="showMore(roverPic)" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Check out more</button>
+                            <button mat-raised-button class="me-2 fs-6" mat-button (click)="showMore(roverPic)" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Check out more</button>
                         </mat-card-actions>
                     </mat-card>
                 </div>
@@ -60,20 +60,21 @@
     </div>
 
     <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content p-2">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">{{ currentSelectedRoverPic.rover.name }} - {{ currentSelectedRoverPic.camera.full_name }}</h1>
+                        <h1 class="modal-title fs-4" id="exampleModalLabel">{{ currentSelectedRoverPic.camera.full_name }}</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body mt-2">
-                        <div class="text-center">
-                            <img class="img-fluid rounded shadow-sm"
+                    <div class="modal-body">
+                        <div class="text-center my-4">
+                            <img class="img-fluid w-75 rounded shadow-sm"
                                  [src]="currentSelectedRoverPic.img_src"
                                  alt="Mars Photo">
                         </div>
-                        <div class="my-4">
+                        <div class="my-4 fs-5">
+                            <p><strong>Rover: </strong> {{ currentSelectedRoverPic.rover.name }}</p>
                             <p><strong>Picture from earth date: </strong> {{ currentSelectedRoverPic.earth_date }}</p>
                             <p><strong>Status: </strong> <span [ngStyle]="{'color': currentSelectedRoverPic.rover.status ? 'green' : 'red'}">{{ currentSelectedRoverPic.rover.status }}</span></p>
                             <p><strong>Total pictures taken: </strong> {{ currentSelectedRoverPic.rover.total_photos }}</p>
@@ -83,9 +84,11 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" mat-raised-button>Add to album</button>
-                        <button type="button" mat-raised-button (click)="showImageInSystemDefaultBrowser(currentSelectedRoverPic.img_src)">Open in browser</button>
-                        <button type="button" mat-raised-button (click)="downloadImage()">Download</button>
+                        <div class="d-flex row p-3 gap-3">
+                            <button type="button" class="fs-6" mat-raised-button>Add to album</button>
+                            <button type="button" class="fs-6" mat-raised-button (click)="showImageInSystemDefaultBrowser(currentSelectedRoverPic.img_src)">Open in browser</button>
+                            <button type="button" class="fs-6" mat-raised-button (click)="downloadImage()">Download</button>
+                        </div>
                     </div>
                 </div>
             </div>

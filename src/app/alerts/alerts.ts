@@ -12,7 +12,9 @@ export function sweetAlertSuccess(title: string, text: string, footerUrl?: strin
         Swal.fire({
             title: title,
             text: text,
-            icon: "success"
+            icon: "success",
+            showConfirmButton: false,
+            timer: 1500
         });
     }
 }
@@ -24,5 +26,3 @@ export function sweetAlertError(title: string, text: string) {
         icon: "error",
     });
 }
-
-// TODO KOLLA OM ALERT KAN FÖRSVINNA EFTER X ANTAL SEKUNDER MER SOM EN SNABB POPUP MED INFO

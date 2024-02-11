@@ -15,6 +15,3 @@ import {RouterLink} from "@angular/router";
 export class AboutComponent {
 
 }
-
-// TODO VISA INTE REGISTER OM INLOGGAD
-// TODO ÖKA FONT STORLEK
