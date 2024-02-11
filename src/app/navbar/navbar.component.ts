@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {NgIf, NgOptimizedImage} from "@angular/common";
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {invoke} from "@tauri-apps/api";
@@ -21,12 +21,18 @@ export class NavbarComponent implements OnInit, OnDestroy {
   isLoggedIn: boolean = false;
   sysTime: string = "-"
 
-  constructor(private authService: SupaAuthService, private spinner: NgxSpinnerService, private router: Router) {
+  constructor(private authService: SupaAuthService,
+              private spinner: NgxSpinnerService,
+              private router: Router,
+              private ngZone: NgZone) {
   }
 
   ngOnInit(): void {
     this.authService.getIsLoggedIn().subscribe((val) => {
-      this.isLoggedIn = val;
+      // Blir problem annars vid refresh att Angular inte vet om att man är inloggad förrens man klickar på nav menyn
+      this.ngZone.run(() => {
+        this.isLoggedIn = val;
+      });
     })
     this.getSystemTime();
   }
