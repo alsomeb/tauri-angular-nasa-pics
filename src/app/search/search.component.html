@@ -72,7 +72,7 @@
                     <div class="d-flex row p-3 gap-3">
                         <button type="button" class="fs-6" mat-raised-button>Add to album</button>
                         <button type="button" class="fs-6" mat-raised-button (click)="showImageInSystemDefaultBrowser(currentSelectedRoverPic.img_src)">Open in browser</button>
-                        <button type="button" class="fs-6" mat-raised-button>Download</button>
+                        <button type="button" class="fs-6" mat-raised-button (click)="downloadImage()">Download</button>
                     </div>
                 </div>
             </div>

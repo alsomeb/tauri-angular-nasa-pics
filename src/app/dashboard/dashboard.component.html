@@ -1,16 +1,20 @@
 <div class="container">
     @if (!isLoading) {
-    <div class="h2 text-center my-5">Dashboard</div>
+        <div class="h2 text-center my-5">Dashboard</div>
         <div class="text-center mb-5">
             <p class="fw-semibold h4">Pictures from Mars, last month.</p>
-            <p class="mb-4 fs-5">Want more? <a class="link-dark" routerLink="/search"><strong>Search</strong></a> a specific date</p>
+            <p class="mb-4 fs-5">Want more? <a class="link-dark" routerLink="/search"><strong>Search</strong></a> a
+                specific date</p>
         </div>
     }
     <div>
+        <div *ngIf="!isLoading">
+            <hr class="mb-5"/>
+        </div>
         <div class="row pb-5">
             <!-- I used col-md-4 to make the columns stack horizontally on medium-sized screens and larger. -->
-            @for (roverPic of roverPics; track roverPic.id) {
-                <div class="col-md-4 mb-5">
+            @for (roverPic of roverPics;track roverPic.id) {
+                <div class="col-md-4 mb-5 d-flex flex-wrap align-content-center justify-content-center align-items-center">
                     <mat-card class="example-card">
                         <mat-card-header>
                             <div mat-card-avatar class="example-header-image"></div>
@@ -25,7 +29,9 @@
                         <mat-card-content>
                         </mat-card-content>
                         <mat-card-actions class="my-3 d-flex justify-content-center align-content-center">
-                            <button mat-raised-button class="me-2 fs-6" mat-button (click)="showMore(roverPic)" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Check out more</button>
+                            <button mat-raised-button class="me-2 fs-6" mat-button (click)="showMore(roverPic)"
+                                    type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Check out more
+                            </button>
                         </mat-card-actions>
                     </mat-card>
                 </div>
@@ -52,46 +58,54 @@
                         </ngx-skeleton-loader>
                     </div>
                 } @else {
-                    <hr />
-                    <div class="fw-semibold fs-5 mt-3 text-danger">No pictures available, try search for a specific date</div>
+                    <hr/>
+                    <div class="fw-semibold fs-5 mt-3 text-danger">No pictures available, try search for a specific
+                        date
+                    </div>
                 }
             }
         </div>
     </div>
 
     <!-- Modal -->
-        <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content p-2">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-4" id="exampleModalLabel">{{ currentSelectedRoverPic.camera.full_name }}</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-2">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-4"
+                        id="exampleModalLabel">{{ currentSelectedRoverPic.camera.full_name }}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center my-4">
+                        <img class="img-fluid w-75 rounded shadow-sm"
+                             [src]="currentSelectedRoverPic.img_src"
+                             alt="Mars Photo">
                     </div>
-                    <div class="modal-body">
-                        <div class="text-center my-4">
-                            <img class="img-fluid w-75 rounded shadow-sm"
-                                 [src]="currentSelectedRoverPic.img_src"
-                                 alt="Mars Photo">
-                        </div>
-                        <div class="my-4 fs-5">
-                            <p><strong>Rover: </strong> {{ currentSelectedRoverPic.rover.name }}</p>
-                            <p><strong>Picture from earth date: </strong> {{ currentSelectedRoverPic.earth_date }}</p>
-                            <p><strong>Status: </strong> <span [ngStyle]="{'color': currentSelectedRoverPic.rover.status ? 'green' : 'red'}">{{ currentSelectedRoverPic.rover.status }}</span></p>
-                            <p><strong>Total pictures taken: </strong> {{ currentSelectedRoverPic.rover.total_photos }}</p>
-                            <p><strong>Launch Date:</strong> {{ currentSelectedRoverPic.rover.launch_date }}</p>
-                            <p><strong>Landing Date:</strong> {{ currentSelectedRoverPic.rover.landing_date }}</p>
-                            <!-- Add more details as needed -->
-                        </div>
+                    <div class="my-4 fs-5">
+                        <p><strong>Rover: </strong> {{ currentSelectedRoverPic.rover.name }}</p>
+                        <p><strong>Picture from earth date: </strong> {{ currentSelectedRoverPic.earth_date }}</p>
+                        <p><strong>Status: </strong> <span
+                                [ngStyle]="{'color': currentSelectedRoverPic.rover.status ? 'green' : 'red'}">{{ currentSelectedRoverPic.rover.status }}</span>
+                        </p>
+                        <p><strong>Total pictures taken: </strong> {{ currentSelectedRoverPic.rover.total_photos }}</p>
+                        <p><strong>Launch Date:</strong> {{ currentSelectedRoverPic.rover.launch_date }}</p>
+                        <p><strong>Landing Date:</strong> {{ currentSelectedRoverPic.rover.landing_date }}</p>
+                        <!-- Add more details as needed -->
                     </div>
-                    <div class="modal-footer">
-                        <div class="d-flex row p-3 gap-3">
-                            <button type="button" class="fs-6" mat-raised-button>Add to album</button>
-                            <button type="button" class="fs-6" mat-raised-button (click)="showImageInSystemDefaultBrowser(currentSelectedRoverPic.img_src)">Open in browser</button>
-                            <button type="button" class="fs-6" mat-raised-button (click)="downloadImage()">Download</button>
-                        </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="d-flex row p-3 gap-3">
+                        <button type="button" class="fs-6" mat-raised-button>Add to album</button>
+                        <button type="button" class="fs-6" mat-raised-button
+                                (click)="showImageInSystemDefaultBrowser(currentSelectedRoverPic.img_src)">Open in
+                            browser
+                        </button>
+                        <button type="button" class="fs-6" mat-raised-button (click)="downloadImage()">Download</button>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
 </div>

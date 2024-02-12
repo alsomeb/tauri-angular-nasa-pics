@@ -77,6 +77,14 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.roverService.setCurrentSelectedRoverPic(rover);
   }
 
+  async downloadImage() {
+    try {
+      await this.roverService.downloadImage(this.currentSelectedRoverPic);
+    } catch (error) {
+      console.error(`Failed to download image'`, error);
+    }
+  }
+
   async showImageInSystemDefaultBrowser(imageUrl: string) {
     // opens the given URL on the default browser:
     await open(imageUrl);
