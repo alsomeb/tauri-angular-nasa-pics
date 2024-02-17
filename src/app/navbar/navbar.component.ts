@@ -7,17 +7,21 @@ import {NgxSpinnerService} from "ngx-spinner";
 import {AvatarModule} from "primeng/avatar";
 import {Subscription} from "rxjs";
 import {User} from "@supabase/supabase-js";
+import {ButtonModule} from "primeng/button";
+import {DockModule} from "primeng/dock";
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-    imports: [
-        NgOptimizedImage,
-        RouterLink,
-        RouterLinkActive,
-        NgIf,
-        AvatarModule
-    ],
+  imports: [
+    NgOptimizedImage,
+    RouterLink,
+    RouterLinkActive,
+    NgIf,
+    AvatarModule,
+    ButtonModule,
+    DockModule
+  ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
