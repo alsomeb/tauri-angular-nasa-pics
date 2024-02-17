@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {createClient, SupabaseClient, User} from "@supabase/supabase-js";
 import {environment} from "../../environments/environment.development";
+import env from "../../environments/environment.production";
 import {BehaviorSubject} from "rxjs";
 
 export interface Profile {
@@ -34,7 +35,7 @@ export class SupaAuthService {
                 email,
                 password,
                 options: {
-                    emailRedirectTo: environment.supabaseDevMode.signUpRedirectUrlDevMode
+                    emailRedirectTo: env.supabaseOptions.signUpRedirectUrl
                 }
             },
         )
