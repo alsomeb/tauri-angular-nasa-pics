@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   async fetchSamplePictures() {
-    const monthAgo = this.getDateInPast(25);
+    const monthAgo = this.getDateInPast(30);
 
     try {
        this.roverPics = await this.roverService.getRoverPicturesByDate(monthAgo);

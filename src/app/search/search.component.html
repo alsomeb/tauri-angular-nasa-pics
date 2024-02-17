@@ -6,7 +6,7 @@
         <form [formGroup]="searchForm" (ngSubmit)="handleSearch()" class="border border-secondary-subtle p-5 rounded shadow-sm">
             <div class="mb-3">
                 <label for="date" class="form-label fw-semibold fs-5 pb-3">Desired Date</label>
-                <input type="date" id="date" class="fs-4 form-control border border-dark-subtle" formControlName="date">
+                <input type="date" id="date" class="fs-5 form-control border border-dark-subtle" formControlName="date">
             </div>
             <div class="mb-3 mt-4" *ngIf="searchForm.valid">
                 <button type="submit" class="fs-6" mat-raised-button>Search<i class="fa-solid fa-magnifying-glass ms-2"></i></button>
@@ -40,7 +40,9 @@
                 </mat-card>
             </div>
         } @empty {
-            <div class="fw-semibold fs-4">No pictures of this date.</div>
+            <div class="fs-5 text-danger">
+                No pictures available, try another date
+            </div>
         }
     </div>
 
@@ -70,9 +72,9 @@
                 </div>
                 <div class="modal-footer">
                     <div class="d-flex row p-3 gap-3">
-                        <button type="button" class="fs-6" mat-raised-button>Add to album</button>
-                        <button type="button" class="fs-6" mat-raised-button (click)="showImageInSystemDefaultBrowser(currentSelectedRoverPic.img_src)">Open in browser</button>
-                        <button type="button" class="fs-6" mat-raised-button (click)="downloadImage()">Download</button>
+                        <button type="button" class="fs-6" mat-raised-button>Add to album <i class="pi pi-plus"></i></button>
+                        <button type="button" class="fs-6" mat-raised-button (click)="showImageInSystemDefaultBrowser(currentSelectedRoverPic.img_src)">Open in browser <i class="pi pi-desktop"></i></button>
+                        <button type="button" class="fs-6" mat-raised-button (click)="downloadImage()">Download <i class="pi pi-download"></i></button>
                     </div>
                 </div>
             </div>

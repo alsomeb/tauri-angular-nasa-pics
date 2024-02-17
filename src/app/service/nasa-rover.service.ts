@@ -71,8 +71,6 @@ export class NasaRoverService {
         try {
             const byteArray = await this.fetchImageAndConvertToJPG(rover.img_src);
             await this.saveFileUserPrompt(byteArray, rover.id);
-
-            sweetAlertSuccess("Image saved", `Enjoy the Image from the ${rover.rover.name} Rover`)
         } catch (error) {
             sweetAlertError("Image not saved", "There was an error saving the image, try again or another image")
             throw error;
@@ -97,6 +95,7 @@ export class NasaRoverService {
         // Check if filePath exist, if not user canceled save dialog and no save takes place
         if (filePath) {
             await writeBinaryFile(filePath, byteArray);
+            sweetAlertSuccess("Image saved", `We hope you enjoy the image`)
         }
     }
 
