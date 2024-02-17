@@ -7,36 +7,49 @@
         <div class="ms-4 me-4">
             <span class="fs-6">{{ sysTime }}</span>
         </div>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 @if (isLoggedIn) {
+                    <li class="nav-item ms-3">
+                        <div class="prime-ng">
+                            <p-avatar [label]="getBadgeLetter()" styleClass="mr-2" size="normal" shape="circle" (click)="redirectProfile()"></p-avatar>
+                        </div>
+                    </li>
                     <li class="nav-item dropdown ms-3">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
                             Menu
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a class="dropdown-item" routerLinkActive="active-nav" [routerLink]="['/dashboard']"><i class="fa-solid fa-rocket me-2"></i>Dashboard</a>
+                                <a class="dropdown-item" routerLinkActive="active-nav" [routerLink]="['/dashboard']"><i
+                                        class="fa-solid fa-rocket me-2"></i>Dashboard</a>
                             </li>
-                            <li><a class="dropdown-item" routerLinkActive="active-nav" [routerLink]="['/search']"><i class="fa-solid fa-magnifying-glass me-2"></i>Search</a></li>
-                            <li><a class="dropdown-item" routerLinkActive="active-nav" [routerLink]="['/profile']" ><i class="fa-solid fa-user me-2"></i>Profile</a></li>
-                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" routerLinkActive="active-nav" [routerLink]="['/search']"><i
+                                    class="fa-solid fa-magnifying-glass me-2"></i>Search</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
                         </ul>
                     </li>
                 } @else {
                     <li class="nav-item ms-3">
-                        <a class="nav-link" [routerLink]="['/']" aria-current="page"><i class="fa-solid fa-right-to-bracket me-2"></i>Login</a>
+                        <a class="nav-link" [routerLink]="['/']" aria-current="page"><i
+                                class="fa-solid fa-right-to-bracket me-2"></i>Login</a>
                     </li>
                     <li class="nav-item ms-3">
-                        <a class="nav-link" routerLinkActive="active" [routerLink]="['/register']" aria-current="page"><i class="fa-solid fa-user-plus me-2"></i>Register</a>
+                        <a class="nav-link" routerLinkActive="active" [routerLink]="['/register']"
+                           aria-current="page"><i class="fa-solid fa-user-plus me-2"></i>Register</a>
                     </li>
                 }
                 <li class="nav-item ms-3">
-                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/about']"><i class="fa-solid fa-circle-info me-2"></i>About</a>
+                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/about']"><i
+                            class="fa-solid fa-circle-info me-2"></i>About</a>
                 </li>
             </ul>
         </div>

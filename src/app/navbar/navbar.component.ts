@@ -4,22 +4,28 @@ import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {invoke} from "@tauri-apps/api";
 import {SupaAuthService} from "../service/supa-auth.service";
 import {NgxSpinnerService} from "ngx-spinner";
+import {AvatarModule} from "primeng/avatar";
+import {Subscription} from "rxjs";
+import {User} from "@supabase/supabase-js";
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [
-    NgOptimizedImage,
-    RouterLink,
-    RouterLinkActive,
-    NgIf
-  ],
+    imports: [
+        NgOptimizedImage,
+        RouterLink,
+        RouterLinkActive,
+        NgIf,
+        AvatarModule
+    ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   isLoggedIn: boolean = false;
   sysTime: string = "-"
+  currentUser!: User
+  subscriptions: Subscription[] = [];
 
   constructor(private authService: SupaAuthService,
               private spinner: NgxSpinnerService,
@@ -28,12 +34,21 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.authService.getIsLoggedIn().subscribe((val) => {
+    const loggedInSub = this.authService.getIsLoggedIn().subscribe((val) => {
       // Blir problem annars vid refresh att Angular inte vet om att man är inloggad förrens man klickar på nav menyn
       this.ngZone.run(() => {
         this.isLoggedIn = val;
       });
     })
+    this.subscriptions.push(loggedInSub);
+
+    const currentUser = this.authService.getCurrentUser().subscribe((user) => {
+      this.ngZone.run(() => {
+        this.currentUser = user;
+      });
+    })
+    this.subscriptions.push(currentUser);
+
     this.getSystemTime();
   }
 
@@ -55,6 +70,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
   }
 
+  getBadgeLetter() {
+    return this.currentUser.email?.charAt(0).toUpperCase() ?? "U";
+  }
+
+  redirectProfile() {
+    this.ngZone.run(() => {
+        this.router.navigate(['/profile']);
+    });
+  }
 
   getSystemTime() {
     invoke('get_dt').then((time) => {
@@ -63,5 +87,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    // Unsubscribe from all subscriptions when the component is destroyed
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 }

@@ -16,7 +16,20 @@ button {
 }
 
 body {
-  background-color: #faf6f2;
+  /*background-color: #faf6f2;*/
 }
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.prime-ng {
+  /* Scoped styles for PrimeNG components */
+}
+
+.prime-ng .p-avatar {
+  cursor: pointer;
+}
+
+.prime-ng .p-avatar:hover {
+  color: #FFFFFF;
+}

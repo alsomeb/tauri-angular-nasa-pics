@@ -2,7 +2,7 @@
     @if (!isLoading) {
         <div class="h2 text-center my-5">Dashboard</div>
         <div class="text-center mb-5">
-            <p class="fw-semibold h4">Pictures from Mars, last month.</p>
+            <p class="fw-semibold fs-5">Pictures from Mars, last month.</p>
             <p class="mb-4 fs-5">Want more? <a class="link-dark" routerLink="/search"><strong>Search</strong></a> a
                 specific date</p>
         </div>
@@ -58,7 +58,7 @@
                         </ngx-skeleton-loader>
                     </div>
                 } @else {
-                    <div class="fw-semibold fs-5 mt-3 text-danger">No pictures available, try search for a specific
+                    <div class="fs-5 mt-3 text-danger">No pictures available, try search for a specific
                         date
                     </div>
                 }

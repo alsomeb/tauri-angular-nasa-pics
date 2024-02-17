@@ -5,7 +5,7 @@
     <div>
         <form [formGroup]="searchForm" (ngSubmit)="handleSearch()" class="border border-secondary-subtle p-5 rounded shadow-sm">
             <div class="mb-3">
-                <label for="date" class="form-label fw-semibold fs-4 pb-3">Desired Date</label>
+                <label for="date" class="form-label fw-semibold fs-5 pb-3">Desired Date</label>
                 <input type="date" id="date" class="fs-4 form-control border border-dark-subtle" formControlName="date">
             </div>
             <div class="mb-3 mt-4" *ngIf="searchForm.valid">
