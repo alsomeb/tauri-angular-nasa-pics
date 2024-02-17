@@ -16,7 +16,8 @@
                 @if (isLoggedIn) {
                     <li class="nav-item ms-3">
                         <div class="prime-ng" [pTooltip]="tooltipContent" tooltipPosition="bottom">
-                            <p-avatar [label]="getBadgeLetter()" styleClass="mr-2" size="normal" shape="circle" (click)="redirectProfile()"></p-avatar>
+                            <p-avatar [label]="getBadgeLetter()" styleClass="mr-2" size="normal" shape="circle"
+                                      (click)="redirectProfile()"></p-avatar>
                         </div>
                         <ng-template #tooltipContent>
                             <div class="text-center">
@@ -31,11 +32,14 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a class="dropdown-item" routerLinkActive="active-nav" [routerLink]="['/dashboard']"><i
-                                        class="fa-solid fa-rocket me-2"></i>Dashboard</a>
+                                <a class="dropdown-item" routerLinkActive="active-nav" [routerLink]="['/dashboard']"><i class="fa-solid fa-rocket me-2"></i>Dashboard</a>
                             </li>
-                            <li><a class="dropdown-item" routerLinkActive="active-nav" [routerLink]="['/search']"><i
-                                    class="fa-solid fa-magnifying-glass me-2"></i>Search</a></li>
+                            <li>
+                                <a class="dropdown-item" routerLinkActive="active-nav" [routerLink]="['/search']"><i class="fa-solid fa-magnifying-glass me-2"></i>Search</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item"><i class="fa-solid fa-images me-2"></i>Albums</a>
+                            </li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
