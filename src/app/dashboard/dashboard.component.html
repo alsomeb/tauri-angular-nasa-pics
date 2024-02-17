@@ -37,25 +37,11 @@
                 </div>
             } @empty {
                 @if (isLoading) {
-                    <div class="row text-center mt-5">
-                        <ngx-skeleton-loader
-                                count="3"
-                                appearance="circle"
-                                [theme]="{
-                                          'width': '250px',
-                                          'height': '250px',
-                                          'border-radius': '10px'
-                                        }">
-                        </ngx-skeleton-loader>
-                        <ngx-skeleton-loader
-                                count="3"
-                                appearance="circle"
-                                [theme]="{
-                                          'width': '250px',
-                                          'height': '250px',
-                                          'border-radius': '10px'
-                                        }">
-                        </ngx-skeleton-loader>
+                    <div class="prime-ng text-center my-5">
+                        <div class="d-flex flex-column gap-5">
+                            <span class="h3">Fetching Pictures..</span>
+                            <p-progressSpinner styleClass="spinner-color" ariaLabel="loading"></p-progressSpinner>
+                        </div>
                     </div>
                 } @else {
                     <div class="fs-5 mt-3 text-danger">No pictures available, try search for a specific
