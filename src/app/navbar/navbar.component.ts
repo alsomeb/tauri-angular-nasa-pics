@@ -9,6 +9,7 @@ import {Subscription} from "rxjs";
 import {User} from "@supabase/supabase-js";
 import {ButtonModule} from "primeng/button";
 import {DockModule} from "primeng/dock";
+import { version } from '../../../package.json';
 
 @Component({
   selector: 'app-navbar',
@@ -30,6 +31,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   sysTime: string = "-"
   currentUser!: User
   subscriptions: Subscription[] = [];
+  appVersion = version;
 
   constructor(private authService: SupaAuthService,
               private spinner: NgxSpinnerService,
