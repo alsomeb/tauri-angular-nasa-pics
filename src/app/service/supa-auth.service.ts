@@ -35,7 +35,7 @@ export class SupaAuthService {
                 email,
                 password,
                 options: {
-                    emailRedirectTo: env.supabaseOptions.signUpRedirectUrl
+                    emailRedirectTo: env.supabaseOptions.signUpRedirectUrl // Needs to be Added on the Url Config on Supabase!
                 }
             },
         )
