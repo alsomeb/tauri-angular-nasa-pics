@@ -13,7 +13,7 @@ export const authGuard: (route: any, state: any) => Observable<User | boolean> =
         take(1),
         map((isAuth) => {
             if (!isAuth) {
-                router.navigate(['']);
+                router.navigate(['/login']);
             }
             return isAuth;
         })

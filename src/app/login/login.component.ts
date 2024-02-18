@@ -63,22 +63,21 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
     async handleLogin() {
         try {
             this.spinner.show();
-            const loginUser: LoginUser = this.loginForm.value;
-            const {error} = await this.authService.login(loginUser.email, loginUser.password);
+                const loginUser: LoginUser = this.loginForm.value;
+                const {error, data} = await this.authService.login(loginUser.email, loginUser.password);
 
-            if (error) {
-                throw error;
-            }
+                if (error) {
+                    throw error;
+                }
 
-            /*
-                By using NgZone's run method, you ensure that the provided code runs inside Angular's zone,
-                which allows Angular to track the changes and trigger change detection appropriately.
-                It's a way to make sure that asynchronous operations are properly handled by Angular.
+                /*
+                    By using NgZone's run method, you ensure that the provided code runs inside Angular's zone,
+                    which allows Angular to track the changes and trigger change detection appropriately.
+                    It's a way to make sure that asynchronous operations are properly handled by Angular.
 
-                Wrapping code in this ensures that they happen within Angular's zone and helps prevent issues related to change detection and state synchronization.
-             */
-
-            this.ngZone.run(() => {
+                    Wrapping code in this ensures that they happen within Angular's zone and helps prevent issues related to change detection and state synchronization.
+                 */
+            this.ngZone.run( () => {
                 this.router.navigate(['/dashboard'])
             })
 
