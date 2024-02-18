@@ -3,8 +3,7 @@ use std::env;
 use futures_util::TryStreamExt;
 use mongodb::{Client, Collection, Database};
 use mongodb::error::Error;
-
-use crate::models::user_model::User;
+use crate::models::album_model::Album;
 
 pub struct MongoRepository {
     db: Database
@@ -12,7 +11,7 @@ pub struct MongoRepository {
 
 // Helper Enum Which Contains All Collection Names
 pub enum CollectionName {
-    User
+    Album
 }
 
 
@@ -35,29 +34,29 @@ impl MongoRepository {
 
     pub async fn collection_switch<T>(data_source: &Self, col_name: CollectionName) -> Collection<T> {
         match col_name {
-            CollectionName::User => data_source.db.collection("Users"),
+            CollectionName::Album => data_source.db.collection("Albums"),
             // TODO flera Collections
         }
     }
 
-    pub async fn get_all_users(&self) -> Result<Vec<User>, Error> {
+    pub async fn get_all_albums(&self) -> Result<Vec<Album>, Error> {
         // Vi typar Collectionen med ::<User>
-        let col = MongoRepository::collection_switch::<User>(&self, CollectionName::User).await;
+        let col = MongoRepository::collection_switch::<Album>(&self, CollectionName::Album).await;
 
         let mut cursors = col
             .find(None, None) // without any options & filters to match all documents
             .await?;
 
-        let mut users: Vec<User> = Vec::new();
+        let mut albumbs: Vec<Album> = Vec::new();
 
-        while let Some(user) = cursors
+        while let Some(album) = cursors
             .try_next()
             .await?
         {
-            users.push(user)
+            albumbs.push(album)
         }
 
-        Ok(users)
+        Ok(albumbs)
     }
 
 }
