@@ -1,10 +1,14 @@
 import {Routes} from "@angular/router";
-import {LoginComponent} from "./login/login.component";
 import {authGuard} from "./guards/auth.guard";
+import {LandingComponent} from "./landing/landing.component";
 
 export const routes: Routes = [
     {
-        path: '', component: LoginComponent
+        path: '', component: LandingComponent
+    },
+    {
+        path: 'login', loadComponent: () =>
+            import('./login/login.component').then((comp) => comp.LoginComponent)
     },
     {
         // Lazy Loading Components
