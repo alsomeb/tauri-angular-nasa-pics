@@ -47,13 +47,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
   async requestPermissionNotifications() {
     try {
-      console.log('Checking permission for notifications...');
+      // Checking permission for notifications...
       this.permissionGrantedNotification = await isPermissionGranted();
 
       if (!this.permissionGrantedNotification) {
-        console.log('Requesting permission for notifications...');
         const permission = await requestPermission();
-        console.log('Permission:', permission);
         this.permissionGrantedNotification = permission === 'granted';
       }
     } catch (error) {

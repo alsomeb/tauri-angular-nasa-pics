@@ -46,7 +46,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   async testMongoDB() {
     try {
-      await this.mongoService.fetchAllUsers();
+      await this.mongoService.fetchAllAlbums();
     } catch (e) {
       console.log(e)
     }

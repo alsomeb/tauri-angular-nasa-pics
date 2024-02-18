@@ -23,9 +23,9 @@ export class MongoService {
 
   constructor() { }
 
-  async fetchAllUsers() {
+  async fetchAllAlbums() {
     try {
-      const data = await invoke('fetch_all_users');
+      const data = await invoke('fetch_all_albums');
       console.log(data);
     } catch (e) {
       console.log(e);
