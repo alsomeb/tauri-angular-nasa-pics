@@ -84,6 +84,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     return this.currentUser.user_metadata['avatar_url']
   }
 
+  // If this.getBadgeIcon() is truthy (meaning the user has an avatar URL), !!this.getBadgeIcon() evaluates to true.
+  // If this.getBadgeIcon() is falsy (meaning there's no avatar URL), !!this.getBadgeIcon() evaluates to false.
   hasBadgePicture() {
     return !!this.getBadgeIcon();
   }
