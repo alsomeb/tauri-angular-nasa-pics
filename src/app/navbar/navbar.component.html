@@ -19,12 +19,17 @@
                 @if (isLoggedIn) {
                     <li class="nav-item ms-3">
                         <div class="prime-ng" [pTooltip]="tooltipContent" tooltipPosition="bottom">
-                            <p-avatar [label]="getBadgeLetter()" styleClass="mr-2" size="normal" shape="circle"
-                                      (click)="redirectProfile()"></p-avatar>
+                            @if (hasBadgePicture()) {
+                                <p-avatar [image]="getBadgeIcon()" styleClass="mr-2" size="normal" shape="circle"
+                                          (click)="redirectProfile()"></p-avatar>
+                            } @else {
+                                <p-avatar [label]="getBadgeLetter()" styleClass="mr-2" size="normal" shape="circle"
+                                          (click)="redirectProfile()"></p-avatar>
+                            }
                         </div>
                         <ng-template #tooltipContent>
                             <div class="text-center">
-                                <span>{{ currentUser.email }}</span>
+                                <span>{{ currentUser['email'] }}</span>
                             </div>
                         </ng-template>
                     </li>

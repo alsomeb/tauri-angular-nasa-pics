@@ -3,11 +3,11 @@
         <h1 class="fs-3 fw-semibold text-center">Profile Details</h1>
         <hr class="my-4">
         <div class="fs-6 d-flex row gap-3 mb-3">
-            <span><strong>Email: </strong> {{ currentUser.email }}</span>
+            <span><strong>Email: </strong> {{ currentUser['email'] }}</span>
             <span><strong>Last Login: </strong> {{ getLastSignedIn() }}</span>
             <span><strong>Account Created: </strong> {{ getAccountCreated() }}</span>
-            <span><strong>Sign in provider: </strong> {{ currentUser.app_metadata.provider }}</span>
+            <span><strong>Sign in provider: </strong> {{ getSignInProviders() }}</span>
         </div>
     </div>
-    <button class="btn btn-secondary" (click)="testMongoDB()">Testa Mongo Albums</button>
+    <!--<button class="btn btn-secondary" (click)="testMongoDB()">Testa Mongo Albums</button>-->
 </div>

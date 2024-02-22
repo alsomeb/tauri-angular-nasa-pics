@@ -6,6 +6,6 @@
 - Watch specific Rover Picture in System Default Web Browser
 - Download Images to your PC, Tauri helps to figure out which OS and finds system default download folder
 - Tauri Notifications
-- Supabase Auth, username & password and Google Login
+- Supabase Auth, username & password and Discord Login
 - Tauri Backend uses async features from Tokio and MongoDB, etc.
 - Under development

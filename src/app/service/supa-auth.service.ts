@@ -70,12 +70,6 @@ export class SupaAuthService {
         });
     }
 
-
-    getSession() {
-        return this.supabaseClient.auth.getSession();
-    }
-
-
     // Login
     async login(email: string, password: string) {
         return await this.supabaseClient.auth.signInWithPassword({email, password})
@@ -84,6 +78,12 @@ export class SupaAuthService {
     // logout
     async signOut() {
         return await this.supabaseClient.auth.signOut()
+    }
+
+    async loginDiscord() {
+        return await this.supabaseClient.auth.signInWithOAuth({
+            provider: "discord",
+        })
     }
 
     // Avatars

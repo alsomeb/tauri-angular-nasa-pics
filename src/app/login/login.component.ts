@@ -63,8 +63,8 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
     async handleLogin() {
         try {
             this.spinner.show();
-                const loginUser: LoginUser = this.loginForm.value;
-                const {error, data} = await this.authService.login(loginUser.email, loginUser.password);
+                const user: LoginUser = this.loginForm.value;
+                const {error} = await this.authService.login(user.email, user.password);
 
                 if (error) {
                     throw error;
@@ -82,7 +82,6 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
             })
 
         } catch (error) {
-            this.spinner.hide()
             if (error instanceof Error) {
                 sweetAlertError("Oops!", "Wrong details 😒");
             }
@@ -91,5 +90,22 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
+    async handleLoginDiscord() {
+        try {
+            this.spinner.show();
+            const {error} = await this.authService.loginDiscord();
+
+            if (error) {
+                throw error;
+            }
+
+        } catch (e) {
+            if (e instanceof Error) {
+                sweetAlertError("Oops!", "Could not authenticate with Discord!");
+            }
+        } finally {
+            this.spinner.hide()
+        }
+    }
 }
 

@@ -23,6 +23,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
         .subscribe((user) => this.currentUser = user);
   }
 
+  getSignInProviders() {
+    const metaData = this.currentUser.app_metadata
+    const providers: string[] =  metaData['providers']
+    return providers.join(", ");
+  }
+
   getLastSignedIn() {
     return this.convertToLocaleDateTimeString(this.currentUser.last_sign_in_at ?? "-"); // om undefined så står det bara '-'
   }

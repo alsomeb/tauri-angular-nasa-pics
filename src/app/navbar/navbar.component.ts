@@ -80,6 +80,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
     return this.currentUser.email?.charAt(0).toUpperCase() ?? "U";
   }
 
+  getBadgeIcon() {
+    return this.currentUser.user_metadata['avatar_url']
+  }
+
+  hasBadgePicture() {
+    return !!this.getBadgeIcon();
+  }
+
   redirectProfile() {
     this.ngZone.run(() => {
         this.router.navigate(['/profile']);
