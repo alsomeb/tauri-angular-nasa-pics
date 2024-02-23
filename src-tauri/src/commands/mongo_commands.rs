@@ -25,7 +25,7 @@ pub async fn create_album(state: State<'_, MongoRepository>, album: Album) -> Re
     let db = state.inner();
 
     let data = Album {
-        id: None,
+        id: None, // Om det är None så skapar MongoBD ett åt oss
         name: album.name,
         user_id: album.user_id,
         photos: album.photos
