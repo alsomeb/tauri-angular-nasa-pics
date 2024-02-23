@@ -1,19 +1,17 @@
 import { Injectable } from '@angular/core';
 import {invoke} from "@tauri-apps/api";
+import {ObjectId} from "mongodb";
 
-/*
-#[derive(Serialize, Deserialize, Debug)]
-// #[serde(rename_all = "camelCase")]
-pub struct User {
-    pub id: Option<ObjectId>,
-    pub email: String,
-    pub firebase_id: String
+export interface Album {
+  _id?: ObjectId; // Made optional with '?'
+  name: string;
+  user_id: string;
+  photos: RoverAlbumEntry[];
 }
 
- */
-
-type User = {
-  // TODO typa
+export interface RoverAlbumEntry {
+  id: number;
+  img_src: string;
 }
 
 @Injectable({
@@ -30,6 +28,18 @@ export class MongoService {
     } catch (e) {
       console.log(e);
       throw e; // Då metoden som kallar på denna service får hantera error
+    }
+  }
+
+  async createAlbum(album: Album) {
+    try {
+      const data = await invoke('create_album', {
+        album: album
+      });
+      console.log(data);
+    } catch (e) {
+      console.log(e);
+      throw e;
     }
   }
 }

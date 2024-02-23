@@ -59,4 +59,14 @@ impl MongoRepository {
         Ok(albumbs)
     }
 
+    pub async fn create_album(&self, album: Album) -> Result<String, Error> {
+        let col = MongoRepository::collection_switch::<Album>(&self, CollectionName::Album).await;
+
+        let result = col
+            .insert_one(album, None) // Note that either an owned or borrowed value can be inserted here, so the input document does not need to be cloned to be passed in.
+            .await?;
+
+        Ok(result.inserted_id.to_string())
+    }
+
 }

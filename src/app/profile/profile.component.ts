@@ -2,7 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SupaAuthService} from "../service/supa-auth.service";
 import {Subscription} from "rxjs";
 import {User} from "@supabase/supabase-js";
-import {MongoService} from "../service/mongo.service";
+import {Album, MongoService} from "../service/mongo.service";
+import {uuid} from "@supabase/supabase-js/dist/main/lib/helpers";
 
 @Component({
   selector: 'app-profile',
@@ -50,9 +51,49 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.currentUserSub.unsubscribe();
   }
 
-  async testMongoDB() {
+  async testMongoDBFetchAll() {
     try {
       await this.mongoService.fetchAllAlbums();
+    } catch (e) {
+      console.log(e)
+    }
+  }
+  /*
+  export interface Album {
+  _id?: ObjectId; // Made optional with '?', can be 'ObjectId'
+  name: string;
+  user_id: string;
+  photos: RoverAlbumEntry[];
+}
+
+export interface RoverAlbumEntry {
+  id: number;
+  img_src: string;
+}
+   */
+
+  async testMongoDBCreateRandomAlbum() {
+    try {
+      const testData: Album = {
+        name: "Test Album",
+        user_id: uuid(),
+        photos: [
+          {
+            id: 1,
+            img_src: "https://mars.nasa.gov/msl-raw-images/msss/01000/mcam/1000ML0044631200305217E01_DXXX.jpg"
+          },
+          {
+            id: 2,
+            img_src: "https://mars.nasa.gov/msl-raw-images/msss/01000/mcam/1000ML0044631200305217E01_DXXX.jpg"
+          },
+          {
+            id: 3,
+            img_src: "https://mars.nasa.gov/msl-raw-images/msss/01000/mcam/1000ML0044631200305217E01_DXXX.jpg"
+          },
+        ]
+      }
+
+      await this.mongoService.createAlbum(testData);
     } catch (e) {
       console.log(e)
     }

@@ -20,3 +20,21 @@ pub async fn fetch_all_albums(state: State<'_, MongoRepository>) -> Result<Vec<A
     albums_result
 }
 
+#[tauri::command]
+pub async fn create_album(state: State<'_, MongoRepository>, album: Album) -> Result<String, String> {
+    let db = state.inner();
+
+    let data = Album {
+        id: None,
+        name: album.name,
+        user_id: album.user_id,
+        photos: album.photos
+    };
+
+    let result_id_of_created_album = db.create_album(data)
+        .await
+        .map_err(|err| err.to_string());
+
+    result_id_of_created_album
+}
+
