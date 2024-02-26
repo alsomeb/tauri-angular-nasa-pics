@@ -8,11 +8,13 @@ import {Subscription} from "rxjs";
 import {open} from "@tauri-apps/api/shell";
 import {NgxSkeletonLoaderModule} from "ngx-skeleton-loader";
 import {ProgressSpinnerModule} from "primeng/progressspinner";
+import {MatIconModule} from "@angular/material/icon";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule, NgOptimizedImage, RouterLinkActive, RouterLink, NgIf, NgStyle, NgxSkeletonLoaderModule, ProgressSpinnerModule],
+    imports: [MatCardModule, MatButtonModule, NgOptimizedImage, RouterLinkActive, RouterLink, NgIf, NgStyle, NgxSkeletonLoaderModule, ProgressSpinnerModule, MatIconModule, MatTooltipModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })

@@ -34,8 +34,11 @@
                     </div>
                     <mat-card-content>
                     </mat-card-content>
-                    <mat-card-actions class="my-3 d-flex justify-content-center align-content-center">
+                    <mat-card-actions class="my-3 d-flex justify-content-center align-content-center gap-2">
                         <button mat-raised-button class="me-2 fs-6" mat-button (click)="showMore(roverPic)" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Check out more</button>
+                        <button mat-icon-button class="text-black" aria-label="Add to album" matTooltip="Add to album">
+                            <mat-icon>add</mat-icon>
+                        </button>
                     </mat-card-actions>
                 </mat-card>
             </div>
@@ -72,7 +75,6 @@
                 </div>
                 <div class="modal-footer">
                     <div class="d-flex row p-3 gap-3">
-                        <button type="button" class="fs-6" mat-raised-button>Add to album <i class="pi pi-plus"></i></button>
                         <button type="button" class="fs-6" mat-raised-button (click)="showImageInSystemDefaultBrowser(currentSelectedRoverPic.img_src)">Open in browser <i class="pi pi-desktop"></i></button>
                         <button type="button" class="fs-6" mat-raised-button (click)="downloadImage()">Download <i class="pi pi-download"></i></button>
                     </div>

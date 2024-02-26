@@ -8,11 +8,13 @@ import {NgxSpinnerService} from "ngx-spinner";
 import {MatCardModule} from "@angular/material/card";
 import {Subscription} from "rxjs";
 import { open } from '@tauri-apps/api/shell';
+import {MatIconModule} from "@angular/material/icon";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-search',
   standalone: true,
-  imports: [ReactiveFormsModule, MatButtonModule, MatDividerModule, NgStyle, NgClass, NgIf, MatCardModule],
+  imports: [ReactiveFormsModule, MatButtonModule, MatDividerModule, NgStyle, NgClass, NgIf, MatCardModule, MatIconModule, MatTooltipModule],
   templateUrl: './search.component.html',
   styleUrl: './search.component.css'
 })
