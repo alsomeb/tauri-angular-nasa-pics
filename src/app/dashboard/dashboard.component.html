@@ -30,7 +30,7 @@
                         </mat-card-content>
                         <mat-card-actions class="my-3 d-flex justify-content-center align-content-center gap-2">
                             <button mat-raised-button class="me-2 fs-6" mat-button (click)="showMore(roverPic)" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Check out more</button>
-                            <button mat-icon-button class="text-black" aria-label="Add to album" matTooltip="Add to album">
+                            <button mat-icon-button class="text-black" aria-label="Add to album" matTooltip="Add to album" (click)="handleAddToAlbum(roverPic)" data-bs-toggle="modal" data-bs-target="#exampleModal2">
                                 <mat-icon>add</mat-icon>
                             </button>
                         </mat-card-actions>
@@ -53,7 +53,7 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Modal Check out more -->
     <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content p-2">
@@ -85,6 +85,32 @@
                         <button type="button" class="fs-6" mat-raised-button (click)="showImageInSystemDefaultBrowser(currentSelectedRoverPic.img_src)">Open in browser <i class="pi pi-desktop"></i></button>
                         <button type="button" class="fs-6" mat-raised-button (click)="downloadImage()">Download <i class="pi pi-download"></i></button>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal CTA Album -->
+    <div class="modal" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-2">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-4"
+                        id="exampleModalLabel2">Choose album to save in</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="p-3">
+                        <form [formGroup]="albumForm" (ngSubmit)="handleAlbumOptionSubmit()">
+                            <select formControlName="albumSelect" id="albumSelect" class="form-select form-select-lg" aria-label="Albums" (change)="onAlbumSelectChange()">
+                                <option value="" disabled>Select Album</option>
+                                <option *ngFor="let option of albumOptions" [value]="option">{{ option }}</option>
+                            </select>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center align-content-center">
+                    <h1 class="fs-5">Create new album</h1>
                 </div>
             </div>
         </div>
