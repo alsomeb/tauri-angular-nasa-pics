@@ -1,13 +1,13 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use chrono::Local;
 use dotenv::dotenv;
 
 use http::http_functions::load_pic_by_date_async;
-use crate::commands::mongo_commands::{create_album, fetch_all_albums};
-use crate::http::http_functions::download_image;
 
+use crate::commands::mongo_commands::{create_album, fetch_all_albums};
+use crate::commands::util_commands::get_dt;
+use crate::http::http_functions::download_image;
 use crate::models::rover_model::RoverPic;
 use crate::repository::mongo_repository::MongoRepository;
 
@@ -15,13 +15,6 @@ mod http;
 mod models;
 mod repository;
 mod commands;
-
-// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-#[tauri::command]
-fn get_dt() -> String {
-    let dt = Local::now();
-    format!("{}", dt.format("%a %b %e %Y"))
-}
 
 #[tokio::main]
 async fn main() {
