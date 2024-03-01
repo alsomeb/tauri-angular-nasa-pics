@@ -5,7 +5,7 @@ use dotenv::dotenv;
 
 use http::http_functions::load_pic_by_date_async;
 
-use crate::commands::mongo_commands::{create_album, fetch_all_albums};
+use crate::commands::mongo_commands::{create_album, fetch_all_albums, fetch_all_albums_by_user_id};
 use crate::commands::util_commands::get_dt;
 use crate::http::http_functions::download_image;
 use crate::models::rover_model::RoverPic;
@@ -28,7 +28,7 @@ async fn main() {
         // method is used to add shared state to the Tauri application,
         // making it accessible from different parts of your application, such as command handlers.
         .manage(mongo_db)
-        .invoke_handler(tauri::generate_handler![get_dt, load_pic_by_date_async, fetch_all_albums, download_image, create_album])
+        .invoke_handler(tauri::generate_handler![get_dt, load_pic_by_date_async, fetch_all_albums, download_image, create_album, fetch_all_albums_by_user_id])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

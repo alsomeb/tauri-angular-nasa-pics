@@ -21,6 +21,17 @@ pub async fn fetch_all_albums(state: State<'_, MongoRepository>) -> Result<Vec<A
 }
 
 #[tauri::command]
+pub async fn fetch_all_albums_by_user_id(state: State<'_, MongoRepository>, user_id: String) -> Result<Vec<Album>, String> {
+    let db = state.inner();
+
+    let albums_result = db.get_albums_by_user_id(user_id.as_str())
+        .await
+        .map_err(|err| err.to_string()); // Convert from Mongo Error to a String Err Msg
+
+    albums_result
+}
+
+#[tauri::command]
 pub async fn create_album(state: State<'_, MongoRepository>, album: Album) -> Result<String, String> {
     let db = state.inner();
 
