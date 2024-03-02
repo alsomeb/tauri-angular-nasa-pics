@@ -42,4 +42,17 @@ export class MongoService {
       throw e;
     }
   }
+
+  async fetchAllAlbumsByUserId(id: any) {
+    try {
+      console.log(id);
+      const data = await invoke('fetch_all_albums_by_user_id', {
+        userId: id
+      });
+      console.log(data);
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  }
 }

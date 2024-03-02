@@ -58,19 +58,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
       console.log(e)
     }
   }
-  /*
-  export interface Album {
-  _id?: ObjectId; // Made optional with '?', can be 'ObjectId'
-  name: string;
-  user_id: string;
-  photos: RoverAlbumEntry[];
-}
 
-export interface RoverAlbumEntry {
-  id: number;
-  img_src: string;
-}
-   */
+  async testMongoDBFetchAllUserAlbums() {
+    try {
+      await this.mongoService.fetchAllAlbumsByUserId(this.currentUser.id);
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
   async testMongoDBCreateRandomAlbum() {
     try {

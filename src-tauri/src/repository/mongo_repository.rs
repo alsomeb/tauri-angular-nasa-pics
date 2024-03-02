@@ -3,8 +3,8 @@ use std::env;
 use futures_util::TryStreamExt;
 use mongodb::{Client, Collection, Database};
 use mongodb::bson::doc;
-use mongodb::bson::oid::ObjectId;
 use mongodb::error::Error;
+
 use crate::models::album_model::Album;
 
 pub struct MongoRepository {
@@ -63,10 +63,9 @@ impl MongoRepository {
 
     pub async fn get_albums_by_user_id(&self, id: &str) -> Result<Vec<Album>, Error> {
         let col = MongoRepository::collection_switch::<Album>(&self, CollectionName::Album).await;
-        let user_id = ObjectId::parse_str(id).unwrap_or_default();
 
         let mut cursors = col
-            .find(doc! {"_id": user_id}, None)
+            .find(doc! {"user_id": id}, None)
             .await?;
 
         let mut albums: Vec<Album> = Vec::new();
