@@ -61,7 +61,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   async testMongoDBFetchAllUserAlbums() {
     try {
-      await this.mongoService.fetchAllAlbumsByUserId(this.currentUser.id);
+      const data = await this.mongoService.fetchAllAlbumsByUserId(this.currentUser.id);
+      console.log(data);
     } catch (e) {
       console.log(e)
     }

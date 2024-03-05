@@ -43,13 +43,12 @@ export class MongoService {
     }
   }
 
-  async fetchAllAlbumsByUserId(id: any) {
+  async fetchAllAlbumsByUserId(id: string) {
     try {
-      console.log(id);
       const data = await invoke('fetch_all_albums_by_user_id', {
         userId: id
       });
-      console.log(data);
+      return data as Album[]
     } catch (e) {
       console.log(e);
       throw e;

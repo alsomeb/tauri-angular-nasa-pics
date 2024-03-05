@@ -11,6 +11,11 @@ import {ProgressSpinnerModule} from "primeng/progressspinner";
 import {MatIconModule} from "@angular/material/icon";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {FormBuilder, FormGroup, ReactiveFormsModule} from "@angular/forms";
+import {MongoService} from "../service/mongo.service";
+import {User} from "@supabase/supabase-js";
+import {SupaAuthService} from "../service/supa-auth.service";
+import {NgxSpinnerService} from "ngx-spinner";
+
 
 @Component({
     selector: 'app-dashboard',
@@ -20,24 +25,32 @@ import {FormBuilder, FormGroup, ReactiveFormsModule} from "@angular/forms";
     styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+    subs: Subscription[] = [];
     roverPics: RoverPic[] = []
     isLoading: boolean = true;
     currentSelectedRoverPic!: RoverPic;
-    currentSelectedRoverPicSub!: Subscription;
+    currentUser!: User;
     albumForm!: FormGroup;
-    albumOptions: string[] = ["Album 1", "Album 2", "Album 3"];
+    albumOptions: String[] = [];
 
     ngOnInit(): void {
         this.fetchSamplePictures();
-        this.currentSelectedRoverPicSub = this.roverService.getCurrentSelectedRoverPic().subscribe((roverPic) => {
+        const currentUserSub = this.authService.getCurrentUser()
+            .subscribe((user) => this.currentUser = user);
+        this.subs.push(currentUserSub);
+
+        const currentSelectedRoverPicSub = this.roverService.getCurrentSelectedRoverPic().subscribe((roverPic) => {
             this.currentSelectedRoverPic = roverPic;
         })
+        this.subs.push(currentSelectedRoverPicSub);
+
+
         this.albumForm = this.fb.group({
             albumSelect: [""]
         })
     }
 
-    constructor(private roverService: NasaRoverService, private fb: FormBuilder) {
+    constructor(private roverService: NasaRoverService, private fb: FormBuilder, private mongoService: MongoService, private authService: SupaAuthService, private spinnerService: NgxSpinnerService) {
     }
 
     async fetchSamplePictures() {
@@ -84,13 +97,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
     }
 
-    ngOnDestroy(): void {
-        this.currentSelectedRoverPicSub.unsubscribe();
+    private async fetchUserAlbumsOptions() {
+        try {
+            this.spinnerService.show();
+            const data = await this.mongoService.fetchAllAlbumsByUserId(this.currentUser.id);
+            this.albumOptions = data.map((album) => album.name);
+        } catch (e) {
+            console.log(e)
+        } finally {
+            this.spinnerService.hide();
+        }
     }
 
-    handleAddToAlbum(roverPic: RoverPic) {
+    async handleAddToAlbum(roverPic: RoverPic) {
+        await this.fetchUserAlbumsOptions();
         console.log(roverPic);
-        // Todo set current roverPic Behavior Subject so we can add it to album later
     }
 
     handleAlbumOptionSubmit() {
@@ -100,5 +121,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     onAlbumSelectChange() {
         this.handleAlbumOptionSubmit();
+    }
+
+    ngOnDestroy(): void {
+        this.subs.forEach((sub) => sub.unsubscribe());
     }
 }
