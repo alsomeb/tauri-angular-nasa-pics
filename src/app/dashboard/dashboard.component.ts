@@ -113,10 +113,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         console.log(roverPic);
     }
 
-    handleAlbumOptionSubmit() {
-        const albumObjectId = this.albumForm.value;
-        // todo add current roverPic to existing album
-        console.log(albumObjectId)
+    async handleAlbumOptionSubmit() {
+        const albumIdString = this.albumForm.value;
+        console.log(albumIdString);
+        // TODO RUST Command för att insert image to Album by Id (append på dens Vector i Struct)
     }
 
     getStringMongoObjectId(objectId: any): string {
