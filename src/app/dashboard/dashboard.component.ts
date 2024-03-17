@@ -11,7 +11,7 @@ import {ProgressSpinnerModule} from "primeng/progressspinner";
 import {MatIconModule} from "@angular/material/icon";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {FormBuilder, FormGroup, ReactiveFormsModule} from "@angular/forms";
-import {MongoService} from "../service/mongo.service";
+import {Album, MongoService} from "../service/mongo.service";
 import {User} from "@supabase/supabase-js";
 import {SupaAuthService} from "../service/supa-auth.service";
 import {NgxSpinnerService} from "ngx-spinner";
@@ -31,7 +31,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     currentSelectedRoverPic!: RoverPic;
     currentUser!: User;
     albumForm!: FormGroup;
-    albumOptions: String[] = [];
+    albumOptions: Album[] = [];
 
     ngOnInit(): void {
         this.fetchSamplePictures();
@@ -54,7 +54,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     async fetchSamplePictures() {
-        const monthAgo = this.getDateInPast(55);
+        const monthAgo = this.getDateInPast(100);
 
         try {
             this.roverPics = await this.roverService.getRoverPicturesByDate(monthAgo);
@@ -100,8 +100,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private async fetchUserAlbumsOptions() {
         try {
             this.spinnerService.show();
-            const data = await this.mongoService.fetchAllAlbumsByUserId(this.currentUser.id);
-            this.albumOptions = data.map((album) => album.name);
+            this.albumOptions = await this.mongoService.fetchAllAlbumsByUserId(this.currentUser.id);
         } catch (e) {
             console.log(e)
         } finally {
@@ -115,8 +114,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     handleAlbumOptionSubmit() {
+        const albumObjectId = this.albumForm.value;
         // todo add current roverPic to existing album
-        console.log(this.albumForm.value)
+        console.log(albumObjectId)
+    }
+
+    getStringMongoObjectId(objectId: any): string {
+        return objectId?.$oid || objectId?.toString() || '';
     }
 
     onAlbumSelectChange() {

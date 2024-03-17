@@ -104,7 +104,7 @@
                         <form [formGroup]="albumForm" (ngSubmit)="handleAlbumOptionSubmit()">
                             <select formControlName="albumSelect" id="albumSelect" class="form-select form-select-lg" aria-label="Albums" (change)="onAlbumSelectChange()">
                                 <option value="" disabled>Select Album</option>
-                                <option *ngFor="let option of albumOptions" [value]="option">{{ option }}</option>
+                                <option *ngFor="let option of albumOptions" [value]="getStringMongoObjectId(option._id)">{{ option.name }}</option>
                             </select>
                         </form>
                     </div>
