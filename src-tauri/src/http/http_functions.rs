@@ -56,7 +56,7 @@ pub async fn download_image(img_url: String) -> Result<Vec<u8>, String> {
         .await
         .map_err(|_| "Failed to convert image to byte array".to_string())?;
 
-    let byte_array = img_bytes.to_vec(); // new Uint8Array(response) behövs i Front end så u8
+    let byte_array = img_bytes.to_vec(); 
 
     Ok(byte_array)
 }
